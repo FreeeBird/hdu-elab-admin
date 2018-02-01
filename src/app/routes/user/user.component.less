@@ -1,0 +1,46 @@
+@import "../../themes/index";
+.no-highlight() {
+  border-color: #e5e5e5;
+  box-shadow: none;
+}
+
+.contentInner{
+  background: #fff;
+  padding: 24px;
+  box-shadow: @shadow-1;
+  min-height: e("calc(100vh - 184px)");
+}
+@media (max-width: 767px) {
+  .contentInner {
+    padding: 12px;
+    min-height: e("calc(100vh - 160px)");
+  }
+}
+
+.other-style{
+  padding-left: 12px; padding-right: 12px; margin-bottom: 16px;
+}
+.filterItem {
+  display: flex;
+  justify-content: space-between;
+
+  .labelWrap {
+    width: 64px;
+    line-height: 28px;
+    margin-right: 12px;
+    justify-content: space-between;
+    display: flex;
+    overflow: hidden;
+  }
+
+  .item {
+    flex: 1;
+  }
+}
+
+
+.change-options {
+  display: inline-block;
+  font-size: 12px;
+  margin-top: 8px;
+}

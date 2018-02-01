@@ -1,0 +1,82 @@
+<div nz-row>
+  <h1>{{course.name}}｛{{course.time}}｝</h1>
+</div>
+<br><br><br>
+<div nz-row>
+  <div nz-col>
+    <p>当前学期：2017学年第一学期（本周为第11周）</p>
+  </div>
+</div>
+<br><br><br>
+<div nz-row  [nzType]="'flex'" [nzJustify]="'center'" [nzAlign]="'middle'">
+  <div nz-col [nzSpan]="6">
+    <p>课号：{{course.courseno}}</p>
+    <p>人数：{{course.scnum}}人</p>
+  </div>
+  <div nz-col [nzSpan]="6">
+    <p>课程名称：{{course.name}}</p>
+    <p>其他：其他</p>
+  </div>
+</div>
+<br><br><br>
+<div nz-row>
+  <div nz-col>
+    <nz-table #nzTable [nzDataSource]="course.data" [nzPageSize]="10">
+      <thead nz-thead>
+      <tr>
+        <th nz-th><span>编号</span></th>
+        <th nz-th><span>实验室名称</span></th>
+        <th nz-th><span>楼栋</span></th>
+        <th nz-th><span>门牌号</span></th>
+        <th nz-th><span>可容纳人数</span></th>
+        <th nz-th><span>分类</span></th>
+        <th nz-th><span>管理员</span></th>
+        <th nz-th><span>分配人数</span></th>
+        <th nz-th><span>周次</span></th>
+        <th nz-th><span>节次</span></th>
+        <th nz-th><span>操作</span></th>
+      </tr>
+      </thead>
+      <tbody nz-tbody>
+      <tr nz-tbody-tr *ngFor="let data of course.data">
+        <td nz-td>{{data.no}}</td>
+        <td nz-td>{{data.labname}}</td>
+        <td nz-td>{{data.building}}</td>
+        <td nz-td>{{data.door}}</td>
+        <td nz-td>{{data.capacity}}人</td>
+        <td nz-td>{{data.type}}</td>
+        <td nz-td>{{data.adminer}}</td>
+        <td nz-td>{{data.people}}人</td>
+        <td nz-td>{{data.weeks}}</td>
+        <td nz-td>{{data.section}}</td>
+        <td nz-td>
+            <span>
+              <span nz-table-divider></span>
+              <a href="#">编辑</a>
+              <span nz-table-divider></span>
+              <nz-dropdown>
+                <a class="ant-dropdown-link" nz-dropdown>
+                  更多 <i class="anticon anticon-down"></i>
+                </a>
+                <ul nz-menu>
+                  <li nz-menu-item>
+                    <a target="_blank" rel="noopener noreferrer" href="http://www.alipay.com/">1st menu item</a>
+                  </li>
+                </ul>
+              </nz-dropdown>
+            </span>
+        </td>
+      </tr>
+      </tbody>
+    </nz-table>
+  </div>
+</div>
+<div nz-row [nzType]="'flex'" [nzJustify]="'end'">
+  <div nz-col [nzSpan]="2">
+    <button nz-button [nzSize]="'large'" routerLink="../">取消</button>
+  </div>
+  <div nz-col>
+    <button nz-button [nzType]="'primary'" [nzSize]="'large'" routerLink="../">保存</button>
+  </div>
+
+</div>

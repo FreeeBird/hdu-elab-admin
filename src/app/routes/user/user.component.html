@@ -1,0 +1,57 @@
+<div nz-row style="margin-left: -12px;margin-right: -12px;">
+  <div nz-col [nzXl]="{ span: 4}" [nzMd]="{ span: 6}"
+       style="padding-left: 12px; padding-right: 12px; margin-bottom: 16px;">
+    <nz-input [nzType]="'search'" [nzPlaceHolder]="'input search text'" [(ngModel)]="searchParmas.values.search_1"
+              class="ant_search"></nz-input>
+  </div>
+  <div nz-col [nzXl]="{ span: 4}" [nzMd]="{ span: 6}"
+       style="padding-left: 12px; padding-right: 12px; margin-bottom: 16px;">
+    <nz-cascader [class.class123]="true" [nzOptions]="searchParmas.params.options" [(ngModel)]="searchParmas.values.search_2">
+    </nz-cascader>
+  </div>
+
+  <div nz-col [nzXl]="{ span: 7}" [nzMd]="{ span: 8}" [nzSm]="{ span: 14}"
+       style="padding-left: 12px; padding-right: 12px; margin-bottom: 16px;">
+    <div class="filterItem">
+      <div class="labelWrap">
+        <span>Createtime</span>
+      </div>
+      <div class="item">
+        <div nz-col [nzSpan]="12">
+          <nz-datepicker (ngModelChange)="searchParmas.values.startDate=$event;_startValueChange()" [ngModel]="searchParmas.values.startDate"
+                         [nzShowTime]="true" [nzFormat]="'YYYY-MM-DD HH:mm:ss'"
+                         [nzPlaceHolder]="'Start date'"></nz-datepicker>
+        </div>
+        <div nz-col [nzSpan]="12">
+          <nz-datepicker (ngModelChange)="searchParmas.values.endDate=$event;_endValueChange()" [ngModel]="searchParmas.values.endDate"
+                         [nzShowTime]="true" [nzFormat]="'YYYY-MM-DD HH:mm:ss'"
+                         [nzPlaceHolder]="'end date'"></nz-datepicker>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div nz-col [nzXl]="{ span: 9}" [nzMd]="{ span: 24}" [nzSm]="{ span: 24}"
+       style="padding-left: 12px; padding-right: 12px; margin-bottom: 16px;">
+    <div style="display: flex; justify-content: space-between; flex-wrap: wrap;">
+      <div>
+        <button nz-button [nzType]="'primary'" (click)="getData()">
+          <span>Search</span>
+        </button>
+        <button nz-button [nzType]="'default'" (click)="clearSearchParams()">
+          <span>Reset</span>
+        </button>
+      </div>
+      <div>
+        <button nz-button [nzType]="'default'" (click)="createOrUpdate()">
+          <span>Create</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<app-table [gridView]="gridView" [tableData]="tableData"
+           [total]="total"
+           [(pageIndex)]="current"
+           [pageSize]="pageSize"
+           [loading]="loading"
+           (refreshData)="getData($event)"></app-table>

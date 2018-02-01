@@ -1,0 +1,34 @@
+<div class="sider {{theme?'dark':'light'}}">
+  <div class="logo">
+    <img src="../assets/logo.png">
+    <span>实验室预约系统</span>
+    <span>管理端</span>
+  </div>
+  <ul nz-menu [nzTheme]="theme?'dark':'light'" [nzInlineCollapsed]="settings.layout.isCollapsed"
+      [nzMode]="settings.layout.isCollapsed?'vertical':'inline'">
+    <ng-container *ngFor="let item of menus">
+      <span>
+         <li nz-submenu *ngIf="item.submenu&&item.submenu.length>0;else elseBlock">
+        <span title><i class="anticon anticon-{{item.icon}}"></i> <span class="nav-text">{{item.name}}</span></span>
+        <ul>
+          <li nz-menu-item routerLink="{{subItem.route}}" *ngFor="let subItem of item.submenu">
+            <span title><i class="anticon anticon-{{subItem.icon}}"></i> <span class="nav-text"> {{subItem.name}}</span></span>
+          </li>
+        </ul>
+      </li>
+      </span>
+      <ng-template #elseBlock>
+        <li nz-menu-item routerLink="{{item.route}}"><span title><i class="anticon anticon-{{item.icon}}"></i><span
+          class="nav-text">{{item.name}}</span></span>
+        </li>
+      </ng-template>
+    </ng-container>
+  </ul>
+  <div class="switchtheme" *ngIf="!settings.layout.isCollapsed">
+      <span><i class="anticon anticon-bulb"></i>切换主题</span>
+    <nz-switch [(ngModel)]="theme" (click)="switch()">
+      <span checked>夜间</span>
+      <span unchecked>日间</span>
+    </nz-switch>
+  </div>
+</div>

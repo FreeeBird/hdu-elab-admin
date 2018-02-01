@@ -1,0 +1,46 @@
+<div nz-row>
+  <h1>实验管理</h1>
+</div>
+<div nz-row>
+  <div nz-col [nzSpan]="22">
+    <p>当前学期：2017学年第一学期（本周为第11周）</p>
+  </div>
+  <div nz-col [nzSpan]="1">
+    <button nz-button [nzType]="'primary'" [nzSize]="'large'">
+      <span>查询历史实验</span>
+    </button>
+  </div>
+</div>
+<div class="devider"></div>
+<div nz-row class="mycard" [nzType]="'flex'" [nzJustify]="'center'" [nzAlign]="'middle'">
+  <div nz-col [nzSpan]="8">
+    <p>本周实验</p>
+    <p>{{experiments.weeknum}}个实验</p>
+  </div>
+  <div nz-col class="se"  [nzSpan]="8">
+    <p>当前已安排实验学时</p>
+    <p>{{experiments.hour}}个学时</p>
+  </div>
+  <div nz-col  [nzSpan]="8">
+    <p>总实验数</p>
+    <p>{{experiments.sum}}个实验</p>
+  </div>
+</div>
+<div class="devider"></div>
+<div nz-row [nzGutter]="12">
+  <div nz-col [nzSpan]="8" *ngFor="let data of data">
+    <nz-card>
+      <ng-template #body>
+        <div class="course">
+          <img src="../../../assets/c.png">
+        <h1>{{data.course}}</h1>
+        <p>{{data.coursetime}}</p>
+        <P>当前已安排实验：{{data.expnum}}个</P>
+        </div>
+        <div class="custom-card">
+          <p><a routerLink="dcbg">表格导出</a><a routerLink="sysz">设置</a></p>
+        </div>
+      </ng-template>
+    </nz-card>
+  </div>
+</div>

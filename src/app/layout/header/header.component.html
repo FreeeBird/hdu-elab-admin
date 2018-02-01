@@ -1,0 +1,18 @@
+<div class="header">
+  <div class="button" (click)="toggleCollapsed()">
+    <i class="anticon anticon-menu-{{settings.layout.isCollapsed?'unfold':'fold'}}"></i>
+  </div>
+  <div class="rightWarpper">
+    <div class="button">
+      <i class="anticon anticon-mail"></i>
+    </div>
+    <ul nz-menu [nzMode]="'horizontal'">
+      <li nz-submenu>
+        <span title><i class="anticon anticon-user"></i>{{this._storage.get('username')}}</span>
+        <ul>
+          <li style="text-align: center" nz-menu-item (click)="signOut()">注销</li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>
