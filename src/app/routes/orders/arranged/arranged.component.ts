@@ -1,10 +1,10 @@
 ///<reference path="../../../../../node_modules/@angular/forms/src/model.d.ts"/>
 import {Component, OnInit} from '@angular/core';
-import {FormGroup, Validators, FormBuilder} from '@angular/forms';
 import {ArrangedService} from './arranged.service';
 import {Router} from '@angular/router';
 import {NzMessageService, NzModalService} from 'ng-zorro-antd';
 import {SessionStorageService} from '@core/storage/storage.service';
+
 
 @Component({
     selector: 'app-arranged',
@@ -13,142 +13,47 @@ import {SessionStorageService} from '@core/storage/storage.service';
     providers: [ArrangedService]
 })
 
-export class ArrangedComponent {
-    constructor(private _storage: SessionStorageService, private confirmServ: NzModalService,
-    private fb: FormBuilder, private orderService: ArrangedService, private router: Router, private _message: NzMessageService) {
+export class ArrangedComponent implements OnInit {
+
+       constructor(private _storage: SessionStorageService, private confirmServ: NzModalService,
+                private ArrangedService: ArrangedService, private _message: NzMessageService) {
     }
-    data = [
+    datas = [];
+    panels = [
         {
-            expand: false,
-            name   : '程序设计基础',
-            num    : 30,
-            teacher: '胡彦斌',
-            time: '周一1，2，3节',
-            week: '1,2,3,4',
-            detail: [{
-                id: 1,
-                labname: '苹果实验室',
-                labbuild: '1教',
-                labNumber: 123,
-                labPeoCount: 50,
-                labType: '计算机',
-                adminName: '黄**',
-                people: 50
-            }, {
-                id: 2,
-                labname: '安卓实验室',
-                labbuild: '1教',
-                labNumber: 101,
-                labPeoCount: 50,
-                labType: '计算机',
-                adminName: '黄**',
-                people: 50
-            }]
-        }, {
-            expand: false,
-            name   : 'Android开发',
-            num    : 50,
-            teacher: '胡彦斌',
-            time: '周一1，2，3节',
-            week: '1,2,3,4',
-            detail: [{
-                id: 1,
-                labname: '苹果实验室',
-                labbuild: '1教',
-                labNumber: 101,
-                labPeoCount: 50,
-                labType: '计算机',
-                adminName: '黄**',
-                people: 50
-            }, {
-                id: 2,
-                labname: '安卓实验室',
-                labbuild: '1教',
-                labNumber: 101,
-                labPeoCount: 50,
-                labType: '计算机',
-                adminName: '黄**',
-                people: 50
-            }]
-        }, {
-            expand: false,
-            name   : 'IOS开发',
-            num    : 70,
-            teacher: '胡彦斌',
-            time: '周一1，2，3节',
-            week: '1,2,3,4',
-            detail: [{
-                id: 1,
-                labname: '苹果实验室',
-                labbuild: '1教',
-                labNumber: 101,
-                labPeoCount: 50,
-                labType: '计算机',
-                adminName: '黄**',
-                people: 50
-            }, {
-                id: 2,
-                labname: '安卓实验室',
-                labbuild: '1教',
-                labNumber: 101,
-                labPeoCount: 50,
-                labType: '计算机',
-                adminName: '黄**',
-                people: 50
-            }]
-        }, {
-            expand: false,
-            name   : '数据库课程设计',
-            num    : 90,
-            teacher: '胡彦斌',
-            time: '周一1，2，3节',
-            week: '1,2,3,4',
-            detail: [{
-                id: 1,
-                labname: '苹果实验室',
-                labbuild: '1教',
-                labNumber: 101,
-                labPeoCount: 50,
-                labType: '计算机',
-                adminName: '黄**',
-                people: 50
-            }, {
-                id: 2,
-                labname: '安卓实验室',
-                labbuild: '1教',
-                labNumber: 101,
-                labPeoCount: 50,
-                labType: '计算机',
-                adminName: '黄**',
-                people: 50
-            }]
-        }, {
-            expand: false,
-            name   : '项目管理',
-            num    : 110,
-            teacher: '胡彦斌',
-            time: '周一1，2，3节',
-            week: '1,2,3,4',
-            detail: [{
-                id: 1,
-                labname: '苹果实验室',
-                labbuild: '1教',
-                labNumber: 101,
-                labPeoCount: 50,
-                labType: '计算机',
-                adminName: '黄**',
-                people: 50
-            }, {
-                id: 2,
-                labname: '安卓实验室',
-                labbuild: '1教',
-                labNumber: 101,
-                labPeoCount: 50,
-                labType: '计算机',
-                adminName: '黄**',
-                people: 50
-            }]
+            active: true,
+            disabled: false,
+            name: '志愿 1',
+            id: 0
+        },
+        {
+            active: false,
+            disabled: true,
+            name: '志愿 2',
+            id: 1
+        },
+        {
+            active: false,
+            disabled: false,
+            name: '志愿 3',
+            id: 2
         }
     ];
+    private _getData = () => {
+        this.ArrangedService.getOrderList()
+            .then((result: any) => {
+                const { data } = result;
+                /*this.datas = data;*/
+                for (let d of data){
+                    d.expand = false;
+                }
+                this.datas = data;
+                console.log(this.datas[0].orderDetails.length);
+            });
+    }
+    ngOnInit(): void {
+        this._getData();
+
+    }
 
 }

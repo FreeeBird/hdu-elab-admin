@@ -1,0 +1,105 @@
+<div nz-row>
+    <h1>未安排预约</h1>
+</div>
+<br>
+<div nz-row>
+    <div nz-col [nzSpan]="22">
+        <p>当前学期：2017学年第一学期（本周为第11周）</p>
+    </div>
+</div>
+<br><br>
+<nz-table #nzTable [nzDataSource]="datas" [nzPageSize]="5">
+    <thead nz-thead>
+    <tr>
+        <th nz-th nzExpand></th>
+        <th nz-th><span>id</span></th>
+        <th nz-th><span>教师名称</span></th>
+        <th nz-th><span>课程号</span></th>
+        <th nz-th><span>课程名称</span></th>
+        <th nz-th><span>课程人数</span></th>
+        <th nz-th><span>创建时间</span></th>
+        <th nz-th><span>操作</span></th>
+    </tr>
+    </thead>
+    <tbody nz-tbody>
+    <ng-template ngFor let-data [ngForOf]="nzTable.data">
+        <tr nz-tbody-tr>
+            <td nz-td nzExpand>
+                <nz-row-expand-icon [(nzExpand)]="data.expand"></nz-row-expand-icon>
+            </td>
+            <td nz-td>{{data.id}}</td>
+            <td nz-td>{{data.userName}}</td>
+            <td nz-td>{{data.classId}}</td>
+            <td nz-td>{{data.className}}</td>
+            <td nz-td>{{data.classPeoCount}}</td>
+            <td nz-td>{{data.createTime}}</td>
+            <td nz-td>
+            <span>
+              <a href="#">删除</a>
+              <span nz-table-divider></span>
+              <a routerLink="/alter">编辑</a>
+            </span>
+            </td>
+        </tr>
+        <tr nz-tbody-tr *ngIf="data.expand" style="background-color: rgb(248,248,248)">
+            <td nz-td colspan="8" style="padding: 0">
+                <nz-collapseset [nzBordered]="false" *ngFor="let panel of data.orderDetails">
+                    <nz-collapse [nzTitle]="'志愿'+panel.type" [nzActive]="false" (onclick)="this.getLabById(panel.firstLab)">
+                        <div nz-row [nzType]="'flex'" [nzJustify]="'center'" [nzAlign]="'middle'">
+                            <div nz-col [nzSpan]="8"><h3>预约时间：星期 {{this.getDayByNum(panel.weekDays)}}</h3></div>
+                            <div nz-col [nzSpan]="8"><h3>课程节次：{{panel.classNum}} 节</h3></div>
+                            <div nz-col [nzSpan]="8"><h3>预约周次: {{panel.orderWeek}} 周</h3></div>
+                        </div>
+                        <nz-table #nzTable2 [nzDataSource]="data.orderDetails" [nzIsPagination]="false" >
+                            <thead nz-thead>
+                            <tr>
+                                <th nz-th><span>编号</span></th>
+                                <th nz-th><span>实验室名称</span></th>
+                                <th nz-th><span>楼栋</span></th>
+                                <th nz-th><span>门牌号</span></th>
+                                <th nz-th><span>可容纳人员</span></th>
+                                <th nz-th><span>分类</span></th>
+                                <th nz-th><span>管理员</span></th>
+                                <th nz-th><span>分配人数</span></th>
+                            </tr>
+                            </thead>
+                            <tbody nz-tbody >
+                            <tr nz-tbody-tr>
+                                <td nz-td>{{panel.firstLab}}</td>
+                                <td nz-td>{{re.labName}}</td>
+                                <td nz-td>{{re.labBuild}}</td>
+                                <td nz-td>{{re.labNumber}}</td>
+                                <td nz-td>{{re.labPeoCount}}</td>
+                                <td nz-td>{{re.labType}}</td>
+                                <td nz-td>{{re.adminUserName}}</td>
+                                <td nz-td>{{panel.firstLabPeoCount}}</td>
+                            </tr>
+                            <tr nz-tbody-tr>
+                                <td nz-td>{{panel.secondLab}}</td>
+                                <td nz-td>{{re.labName}}</td>
+                                <td nz-td>{{re.labBuild}}</td>
+                                <td nz-td>{{re.labNumber}}</td>
+                                <td nz-td>{{re.labPeoCount}}</td>
+                                <td nz-td>{{re.labType}}</td>
+                                <td nz-td>{{re.adminUserName}}</td>
+                                <td nz-td>{{panel.secondLabPeoCount}}</td>
+                            </tr>
+                            <tr nz-tbody-tr>
+                                <td nz-td>{{panel.thirdLab}}</td>
+                                <td nz-td>{{re.labName}}</td>
+                                <td nz-td>{{re.labBuild}}</td>
+                                <td nz-td>{{re.labNumber}}</td>
+                                <td nz-td>{{re.labPeoCount}}</td>
+                                <td nz-td>{{re.labType}}</td>
+                                <td nz-td>{{re.adminUserName}}</td>
+                                <td nz-td>{{panel.thirdLabPeoCount}}</td>
+                            </tr>
+                            </tbody>
+                        </nz-table>
+                        </nz-collapse>
+                        </nz-collapseset>
+                        </td>
+                        </tr>
+                        </ng-template>
+                        </tbody>
+                        </nz-table>
