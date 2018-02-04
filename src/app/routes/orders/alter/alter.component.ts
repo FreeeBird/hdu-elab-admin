@@ -5,7 +5,6 @@ import {AlterService} from './alter.service';
 import {Router} from '@angular/router';
 import {NzMessageService, NzModalService} from 'ng-zorro-antd';
 import {SessionStorageService} from '@core/storage/storage.service';
-import {EditcourseService} from '../../courses/editcourse/editcourse.service';
 
 @Component({
     selector: 'app-Alter',
@@ -16,7 +15,7 @@ import {EditcourseService} from '../../courses/editcourse/editcourse.service';
 
 export class AlterComponent {
     constructor(private _storage: SessionStorageService, private confirmServ: NzModalService,
-    private fb: FormBuilder, private orderService: AlterService, private router: Router, private _message: NzMessageService) {
+    private fb: FormBuilder, private AlterService: AlterService, private router: Router, private _message: NzMessageService) {
     }
     validateForm: FormGroup;
     loadStatus: boolean;
