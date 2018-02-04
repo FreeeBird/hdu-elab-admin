@@ -23,60 +23,63 @@
     </thead>
     <tbody nz-tbody>
     <ng-template ngFor let-data [ngForOf]="nzTable.data">
-    <tr nz-tbody-tr>
-        <td nz-td nzExpand>
-            <nz-row-expand-icon [(nzExpand)]="data.expand"></nz-row-expand-icon>
-        </td>
-        <td nz-td>
-            <a>{{data.id}}</a>
-        </td>
-        <td nz-td>{{data.userName}}</td>
-        <td nz-td>{{data.classNum}}</td>
-        <td nz-td>{{data.className}}</td>
-        <td nz-td>{{data.classPeoCount}}</td>
-        <td nz-td>{{data.createTime}}</td>
-        <td nz-td>
+        <tr nz-tbody-tr>
+            <td nz-td nzExpand>
+                <nz-row-expand-icon [(nzExpand)]="data.expand"></nz-row-expand-icon>
+            </td>
+            <td nz-td>{{data.id}}</td>
+            <td nz-td>{{data.userName}}</td>
+            <td nz-td>{{data.classId}}</td>
+            <td nz-td>{{data.className}}</td>
+            <td nz-td>{{data.classPeoCount}}</td>
+            <td nz-td>{{data.createTime}}</td>
+            <td nz-td>
             <span>
               <a href="#">删除</a>
               <span nz-table-divider></span>
               <a routerLink="/alter">编辑</a>
             </span>
-        </td>
+            </td>
+        </tr>
+        <tr nz-tbody-tr *ngIf="data.expand" style="background-color: rgb(248,248,248)">
+            <td nz-td colspan="8" style="padding: 0">
+                <nz-collapseset [nzBordered]="false" *ngFor="let panel of orderDetails" >
+                    <nz-collapse [nzTitle]="'志愿'+panel.type" [nzActive]="false">
+                        <div nz-row [nzType]="'flex'" [nzJustify]="'center'" [nzAlign]="'middle'">
+                            <div nz-col [nzSpan]="8"><h3>预约时间：星期{{this.getDayByNum(panel.weekDays)}}</h3></div>
+                            <div nz-col [nzSpan]="8"><h3>课程节次：{{panel.classNum}} 节</h3></div>
+                            <div nz-col [nzSpan]="8"><h3>预约周次: {{panel.orderWeek}}周</h3></div>
+                        </div>
+                        <nz-table #nzTable2 [nzDataSource]="orderDetails" [nzIsPagination]="false" >
+    <thead nz-thead>
+    <tr>
+        <th nz-th><span>编号</span></th>
+        <th nz-th><span>实验室名称</span></th>
+        <th nz-th><span>楼栋</span></th>
+        <th nz-th><span>门牌号</span></th>
+        <th nz-th><span>可容纳人员</span></th>
+        <th nz-th><span>分类</span></th>
+        <th nz-th><span>管理员</span></th>
+        <th nz-th><span>分配人数</span></th>
     </tr>
-    <tr nz-tbody-tr *ngIf="data.expand" style="background-color: rgb(248,248,248)">
-        <td nz-td colspan="7" style="padding: 0">
-            <nz-collapseset [nzBordered]="false" *ngFor="let panel of data.orderDetails">
-                <nz-collapse [nzTitle]="'志愿'+panel.type" [nzActive]="false">
-                    <nz-table #nzTable2 [nzDataSource]="data.orderDetails" [nzIsPagination]="false" >
-                        <thead nz-thead>
-                        <tr>
-                            <th nz-th><span>编号</span></th>
-                            <th nz-th><span>实验室名称</span></th>
-                            <th nz-th><span>楼栋</span></th>
-                            <th nz-th><span>门牌号</span></th>
-                            <th nz-th><span>可容纳人员</span></th>
-                            <th nz-th><span>分类</span></th>
-                            <th nz-th><span>管理员</span></th>
-                            <th nz-th><span>分配人数</span></th>
-                        </tr>
-                        </thead>
-                        <tbody nz-tbody >
-                        <tr nz-tbody-tr *ngFor="let d of data.orderDetails">
-                            <td nz-td>{{d.firstLab}}</td>
-                            <td nz-td>{{d.firstLabPeoCount}}</td>
-                            <td nz-td>{{d.firstLab}}</td>
-                            <td nz-td>{{d.firstLab}}</td>
-                            <td nz-td>{{d.firstLab}}人</td>
-                            <td  nz-td>{{d.firstLab}}</td>
-                            <td nz-td>{{d.firstLab}}</td>
-                            <td nz-td>{{d.firstLab}}</td>
-                        </tr>
-                        </tbody>
-                    </nz-table>
-                </nz-collapse>
-            </nz-collapseset>
-        </td>
+    </thead>
+    <tbody nz-tbody>
+    <tr nz-tbody-tr>
+        <td nz-td>1</td>
+        <td nz-td>计算机实验室</td>
+        <td nz-td>1</td>
+        <td nz-td>101</td>
+        <td nz-td>100</td>
+        <td nz-td>计算机}</td>
+        <td nz-td>黄**</td>
+        <td nz-td>57</td>
     </tr>
-    </ng-template>
     </tbody>
+</nz-table>
+</nz-collapse>
+</nz-collapseset>
+</td>
+</tr>
+</ng-template>
+</tbody>
 </nz-table>

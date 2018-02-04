@@ -1,7 +1,6 @@
 ///<reference path="../../../../../node_modules/@angular/forms/src/model.d.ts"/>
 import {Component, OnInit} from '@angular/core';
 import {ArrangedService} from './arranged.service';
-import {Router} from '@angular/router';
 import {NzMessageService, NzModalService} from 'ng-zorro-antd';
 import {SessionStorageService} from '@core/storage/storage.service';
 
@@ -19,25 +18,25 @@ export class ArrangedComponent implements OnInit {
                 private ArrangedService: ArrangedService, private _message: NzMessageService) {
     }
     datas = [];
-    panels = [
+    orderDetails= [
         {
-            active: true,
-            disabled: false,
-            name: '志愿 1',
-            id: 0
+            'type': 1,
+            'weekDays': [5],
+            'classNum': [3, 4, 5],
+            'orderWeek': [1, 2, 3, 4, 5, 6, 7, 8, 9]
         },
         {
-            active: false,
-            disabled: true,
-            name: '志愿 2',
-            id: 1
+            'type': 2,
+            'weekDays': [5],
+            'classNum': [3, 4, 5],
+            'orderWeek': [1, 2, 3, 4, 5, 6, 7, 8, 9]
         },
         {
-            active: false,
-            disabled: false,
-            name: '志愿 3',
-            id: 2
-        }
+            'type': 3,
+            'weekDays': [5],
+            'classNum': [3, 4, 5],
+            'orderWeek': [1, 2, 3, 4, 5, 6, 7, 8, 9]
+        },
     ];
     private _getData = () => {
         this.ArrangedService.getOrderList()
