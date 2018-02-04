@@ -10,6 +10,7 @@ export class DisarrangedService extends BaseService {
     constructor(private _storage: SessionStorageService, http: NHttpClinet) {
         super('disarranged', http);
     }
+
     getOrderList() {
         return new Promise((resolve, reject) => {
             this.http.get('https://www.easy-mock.com/mock/5a73c90cb4ec7020fa2f63e8/example/wapyy')
@@ -20,7 +21,7 @@ export class DisarrangedService extends BaseService {
     }
     getLab() {
         return new Promise((resolve, reject) => {
-            this.http.get('https://www.easy-mock.com/mock/5a73c90cb4ec7020fa2f63e8/example/lab')
+            this.http.get('https://www.easy-mock.com/mock/5a73c90cb4ec7020fa2f63e8/example/orderdetail')
                 .subscribe(result => {
                     resolve(result);
                 });

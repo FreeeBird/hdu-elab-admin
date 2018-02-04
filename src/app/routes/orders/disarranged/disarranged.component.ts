@@ -16,41 +16,41 @@ export class DisarrangedComponent implements OnInit {
     private DisarrangedService: DisarrangedService, private _message: NzMessageService) {
     }
     datas = [];
-    orderDetails= [
-        {
-            'type': 1,
-            'weekDays': [5],
-            'classNum': [3, 4, 5],
-            'orderWeek': [1, 2, 3, 4, 5, 6, 7, 8, 9]
-        },
-        {
-            'type': 2,
-            'weekDays': [5],
-            'classNum': [3, 4, 5],
-            'orderWeek': [1, 2, 3, 4, 5, 6, 7, 8, 9]
-        },
-        {
-            'type': 3,
-            'weekDays': [5],
-            'classNum': [3, 4, 5],
-            'orderWeek': [1, 2, 3, 4, 5, 6, 7, 8, 9]
-        },
-    ];
+    orderDetails = [];
+    // 获取预约列表
     private _getData = () => {
         this.DisarrangedService.getOrderList()
             .then((result: any) => {
                 const { data } = result;
-                /*this.datas = data;*/
                 for (const d of data){
                     d.expand = false;
                 }
                 this.datas = data;
             });
     }
+    // 展开列表
+    private boolOpen(expand: boolean) {
+        if (expand) {
+            this.DisarrangedService.getLab()
+                .then((result: any) => {
+                    const { data } = result;
+                    this.orderDetails = data;
+                });
+        }
+        return expand;
+    }
 
     private getDayByNum(num: number) {
         const array = ['天', '一', '二', '三', '四', '五', '六', '天'];
         return array[num];
+    }
+    // 删除志愿1
+    private delete(data: any) {
+        console.log(data);
+    }
+    // 修改志愿1
+    private update(data: any) {
+        console.log(data);
     }
 
     ngOnInit(): void {
