@@ -38,11 +38,6 @@ export class SiderComponent {
       'icon': 'user',
       'name': 'User',
       'route': '/user'
-    },
-    {
-      'icon': 'code-o',
-      'name': 'Charts',
-      'route': '/charts'
     }];
 
   constructor(public settings: SettingsService, private menuService: MenuService) {

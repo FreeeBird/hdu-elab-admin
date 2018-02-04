@@ -39,9 +39,14 @@
 <td nz-td colspan="8" style="padding: 0">
     <!--展开头-->
     <div nz-row *ngFor="let orders of orderDetails">
-    <nz-alert [nzType]="'info'"  nzShowIcon="true" >
-        <span alert-body >志愿{{orders.type}}
-            <a *ngIf="orders.type==1">编辑</a>
+    <nz-alert [nzType]="'success'"  nzShowIcon="true"  style="text-align: center">
+        <span alert-body >
+            <span style="float: left">志愿{{orders.type}}</span>&nbsp;&nbsp;
+            <span>预约时间：星期{{getDayByNum(orders.weekDays)}}</span>&nbsp;&nbsp;
+             <span>预约周次：{{orders.orderWeek}}</span>&nbsp;&nbsp;
+             <span>预约节次：{{orders.classNum}}</span>&nbsp;&nbsp;
+             <span>班级人数：{{orders.classPeoCount}}</span>&nbsp;&nbsp;
+            <a *ngIf="orders.type==1" style="float: right" (click)="update(orders)">编辑</a>
         </span>
     </nz-alert>
     <nz-table #nzTable [nzAjaxData]="orders.labs"  [nzIsPagination]="false">

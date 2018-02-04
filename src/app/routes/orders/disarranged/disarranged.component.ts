@@ -1,8 +1,8 @@
 ///<reference path="../../../../../node_modules/@angular/forms/src/model.d.ts"/>
 import {Component, OnInit} from '@angular/core';
 import {DisarrangedService} from './disarranged.service';
-import {NzMessageService, NzModalService} from 'ng-zorro-antd';
 import {SessionStorageService} from '@core/storage/storage.service';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-disarranged',
@@ -12,8 +12,8 @@ import {SessionStorageService} from '@core/storage/storage.service';
 })
 
 export class DisarrangedComponent implements OnInit {
-    constructor(private _storage: SessionStorageService, private confirmServ: NzModalService,
-    private DisarrangedService: DisarrangedService, private _message: NzMessageService) {
+    constructor(private _storage: SessionStorageService, private router: Router,
+    private DisarrangedService: DisarrangedService) {
     }
     datas = [];
     orderDetails = [];
@@ -44,13 +44,10 @@ export class DisarrangedComponent implements OnInit {
         const array = ['天', '一', '二', '三', '四', '五', '六', '天'];
         return array[num];
     }
-    // 删除志愿1
-    private delete(data: any) {
-        console.log(data);
-    }
     // 修改志愿1
     private update(data: any) {
         console.log(data);
+        this.router.navigate(['/alter', data.type]);
     }
 
     ngOnInit(): void {

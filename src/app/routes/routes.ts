@@ -6,7 +6,6 @@ import {LoginComponent} from './login/login.component';
 import {IndexComponent} from './index/index.component';
 import {UserComponent} from './user/user.component';
 import {CanAuthProvide} from '@core/services/auth.service';
-import {ChartsComponent} from './charts/charts.component';
 import {CalendarComponent} from './calendar/calendar.component';
 import {ArrangedComponent} from './orders/arranged/arranged.component';
 import {DisarrangedComponent} from './orders/disarranged/disarranged.component';
@@ -46,12 +45,11 @@ export const routes: Routes = [
                     breadcrumb: '未安排预约'
                 }
             }, {
-                path: 'alter', component: AlterComponent, canActivate: [CanAuthProvide],
+                path: 'alter/:id', component: AlterComponent, canActivate: [CanAuthProvide],
                 data: {
                     breadcrumb: '预约修改'
                 }
             },
-            {path: 'charts', component: ChartsComponent, canActivate: [CanAuthProvide]},
             {path: '', redirectTo: 'index', pathMatch: 'full'}
         ]
     },
