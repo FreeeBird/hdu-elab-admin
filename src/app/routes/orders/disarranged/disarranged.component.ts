@@ -15,17 +15,18 @@ export class DisarrangedComponent implements OnInit {
     constructor(private _storage: SessionStorageService, private router: Router,
     private DisarrangedService: DisarrangedService) {
     }
-    datas = [];
+    apiUrl = [
+        'http://aliyun.charlesxu.cn:8080/LabManager/order/getUnfinishedSimpleOrderListByLabId', /*获取实验室的未安排预约*/
+    ];
+    labId = '6';
+    orderList = [];
     orderDetails = [];
     // 获取预约列表
     private _getData = () => {
-        this.DisarrangedService.getOrderList()
+        this.DisarrangedService.getSimpleOrderList(this.apiUrl[0], this.labId)
             .then((result: any) => {
-                const { data } = result;
-                for (const d of data){
-                    d.expand = false;
-                }
-                this.datas = data;
+                this.orderList = JSON.parse(result['_body'])['SimpleOrder'];
+                console.log(this.orderList);
             });
     }
     // 展开列表

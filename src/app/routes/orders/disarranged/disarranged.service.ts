@@ -1,19 +1,17 @@
 import {Injectable} from '@angular/core';
 import {SessionStorageService} from '@core/storage/storage.module';
-import {Http, Headers} from '@angular/http';
-import 'rxjs/Rx';
-import {NHttpClinet} from '@core/utils/http.client';
-import {BaseService} from '@core/utils/BaseRequest';
+import {Http, Headers, RequestOptions} from '@angular/http';
 
 @Injectable()
-export class DisarrangedService extends BaseService {
-    constructor(private _storage: SessionStorageService, http: NHttpClinet) {
-        super('disarranged', http);
+export class DisarrangedService {
+    constructor(private _storage: SessionStorageService, private http: Http) {
     }
-
-    getOrderList() {
+    getSimpleOrderList( curl: any, labId: any) {
+        let headers = new Headers({'Content-Type': 'application/json'});
+        let options = new RequestOptions({headers: headers});
+        let content = JSON.stringify({'labId': labId});
         return new Promise((resolve, reject) => {
-            this.http.get('https://www.easy-mock.com/mock/5a73c90cb4ec7020fa2f63e8/example/wapyy')
+            this.http.post(curl, content, options)
                 .subscribe(result => {
                     resolve(result);
                 });

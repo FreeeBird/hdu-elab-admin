@@ -8,49 +8,48 @@
     </div>
 </div>
 <br><br>
-<nz-table #nzTable [nzDataSource]="datas" [nzPageSize]="5">
+<nz-table #nzTable [nzDataSource]="datas" [nzPageSize]="pageSize"  [nzTotal]="datas.length" nzShowTotal="true">
     <thead nz-thead>
     <tr>
         <th nz-th nzExpand></th>
-        <th nz-th><span>id</span></th>
+        <th nz-th><span>编号</span></th>
         <th nz-th><span>教师名称</span></th>
         <th nz-th><span>课程号</span></th>
         <th nz-th><span>课程名称</span></th>
         <th nz-th><span>课程人数</span></th>
         <th nz-th><span>创建时间</span></th>
-        <th nz-th><span>操作</span></th>
+        <th nz-th><span>最后修改时间</span></th>
     </tr>
     </thead>
     <tbody nz-tbody>
     <ng-template ngFor let-data [ngForOf]="nzTable.data">
         <tr nz-tbody-tr>
-            <td nz-td nzExpand>
+            <td nz-td nzExpand (click)="this.boolOpen(data.expand)">
                 <nz-row-expand-icon [(nzExpand)]="data.expand"></nz-row-expand-icon>
             </td>
             <td nz-td>{{data.id}}</td>
-            <td nz-td>{{data.userName}}</td>
+            <td nz-td>{{data.userNickname}}</td>
             <td nz-td>{{data.classId}}</td>
             <td nz-td>{{data.className}}</td>
             <td nz-td>{{data.classPeoCount}}</td>
             <td nz-td>{{data.createTime}}</td>
-            <td nz-td>
-            <span>
-              <a href="#">删除</a>
-              <span nz-table-divider></span>
-              <a routerLink="/alter">编辑</a>
-            </span>
-            </td>
+            <td nz-td>{{data.lastModify }}</td>
         </tr>
-        <tr nz-tbody-tr *ngIf="data.expand" style="background-color: rgb(248,248,248)">
+        <tr nz-tbody-tr *ngIf="data.expand">
             <td nz-td colspan="8" style="padding: 0">
-                <nz-collapseset [nzBordered]="false" *ngFor="let panel of orderDetails" >
-                    <nz-collapse [nzTitle]="'志愿'+panel.type" [nzActive]="false">
-                        <div nz-row [nzType]="'flex'" [nzJustify]="'center'" [nzAlign]="'middle'">
-                            <div nz-col [nzSpan]="8"><h3>预约时间：星期{{this.getDayByNum(panel.weekDays)}}</h3></div>
-                            <div nz-col [nzSpan]="8"><h3>课程节次：{{panel.classNum}} 节</h3></div>
-                            <div nz-col [nzSpan]="8"><h3>预约周次: {{panel.orderWeek}}周</h3></div>
-                        </div>
-                        <nz-table #nzTable2 [nzDataSource]="orderDetails" [nzIsPagination]="false" >
+                <!--展开头-->
+                <div nz-row *ngFor="let orders of orders[data.id].orderDetails">
+                    <nz-alert [nzType]="'success'"  nzShowIcon="true"  style="text-align: center">
+        <span alert-body >
+            <span style="float: left">志愿{{orders.type}}</span>&nbsp;&nbsp;
+            <span>预约时间：星期{{getDayByNum(orders.weekDays)}}</span>&nbsp;&nbsp;
+             <span>预约周次：{{orders.orderWeek}}</span>&nbsp;&nbsp;
+             <span>预约节次：{{orders.classNum}}</span>&nbsp;&nbsp;
+             <span>班级人数：{{orders.classPeoCount}}</span>&nbsp;&nbsp;
+            <!--<a *ngIf="orders.type==1" style="float: right" (click)="update(orders)">编辑</a>-->
+        </span>
+                    </nz-alert>
+                    <nz-table #nzTable [nzAjaxData]="orders.labs"  [nzIsPagination]="false">
     <thead nz-thead>
     <tr>
         <th nz-th><span>编号</span></th>
@@ -63,21 +62,22 @@
         <th nz-th><span>分配人数</span></th>
     </tr>
     </thead>
-    <tbody nz-tbody>
-    <tr nz-tbody-tr>
-        <td nz-td>1</td>
-        <td nz-td>计算机实验室</td>
-        <td nz-td>1</td>
-        <td nz-td>101</td>
-        <td nz-td>100</td>
-        <td nz-td>计算机}</td>
-        <td nz-td>黄**</td>
-        <td nz-td>57</td>
+    <tbody nz-tbody >
+    <tr nz-tbody-tr *ngFor="let o of orders.labs">
+        <td nz-td>{{o.id}}</td>
+        <td   nz-td>{{o.labName}}</td>
+        <td   nz-td>{{o.labBuild}}</td>
+        <td   nz-td>{{o.labNumber}}</td>
+        <td   nz-td>{{o.labPeoCount}}人</td>
+        <td   nz-td>{{o.labType}}</td>
+        <td   nz-td>{{o.adminUserName}}</td>
+        <td   nz-td>{{o.peoCount}}人</td>
     </tr>
     </tbody>
 </nz-table>
-</nz-collapse>
-</nz-collapseset>
+<br>
+</div>
+<!--展开尾-->
 </td>
 </tr>
 </ng-template>
