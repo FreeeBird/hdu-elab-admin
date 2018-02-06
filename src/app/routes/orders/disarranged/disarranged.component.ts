@@ -21,13 +21,12 @@ export class DisarrangedComponent implements OnInit {
         'http://aliyun.charlesxu.cn:8080/LabManager/order/getOrderById',
         'http://aliyun.charlesxu.cn:8080/LabManager/lab/getLabById',
     ];
-    labId = '6';
     orderList = [];
     orderDetails = [];
     lab = [];
     // 获取预约列表
     private _getData = () => {
-        this.DisarrangedService.getSimpleOrderList(this.apiUrl[0], this.labId)
+        this.DisarrangedService.getSimpleOrderList(this.apiUrl[0], this._storage.get('labId'))
             .then((result: any) => {
                 const data = JSON.parse(result['_body'])['SimpleOrder'];
                 for (let i of data) {

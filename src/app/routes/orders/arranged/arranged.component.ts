@@ -31,7 +31,7 @@ export class ArrangedComponent implements OnInit {
     ];
     // 获取预约列表
     private _getData = () => {
-        this.ArrangedService.getSimpleOrders(this.apiUrl[0], this.labId)
+        this.ArrangedService.getSimpleOrders(this.apiUrl[0], this._storage.get('labId'))
             .then((result: any) => {
                 const data = JSON.parse(result['_body'])['SimpleOrder'];
                 for (let i of data) {

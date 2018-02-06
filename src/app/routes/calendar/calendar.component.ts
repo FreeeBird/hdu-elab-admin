@@ -20,16 +20,16 @@ import {SessionStorageService} from '@core/storage/storage.service';
 export class CalendarComponent implements OnInit {
     public week = 5;
     public timetable = [];
-    public lab = [];
     constructor(private CalendarService: CalendarService, private _storage: SessionStorageService) {
     }
     private getData() {
         this.CalendarService.getLabId('lab/getLabByAdminUserName', this._storage.get('username'))
             .then((result: any) => {
-                this.lab = JSON.parse(result['_body']).lab1List;
-                console.log(this.lab[4].id);
-                this.CalendarService.getCalendar('class/getCourseTableByLabId', this.lab[4].id)
+                const data = JSON.parse(result['_body']).lab1List;
+                this._storage.set('labId', data[0].id);
+                this.CalendarService.getCalendar('class/getCourseTableByLabId', this._storage.get('labId'))
                     .then((res: any) => {
+                        console.log(JSON.parse(res['_body']));
                         this.timetable = JSON.parse(res['_body'])['courseTable']['courseTable'];
                     });
             });
