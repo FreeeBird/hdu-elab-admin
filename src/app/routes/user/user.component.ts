@@ -65,6 +65,7 @@ export class UserComponent extends GridComponent implements OnInit {
     this.setLoading(true);
     this.userService.getUserList(event || this.current, this.pageSize)
       .then((result: any) => {
+      console.log(result)
         const { data, total } = result;
         this.setTableData(data);
         this.setTotal(total);

@@ -7,6 +7,7 @@ import {LayoutModule} from './layout/layout.module';
 import {ComponentsModule} from '@components/components.module';
 import {RoutesModule} from './routes/routes.module';
 import {CoreModule} from '@core/core.module';
+import {HttpModule} from '@angular/http';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import {CoreModule} from '@core/core.module';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    HttpModule,
     SharedModule.forRoot(),
     ComponentsModule,
     LayoutModule,

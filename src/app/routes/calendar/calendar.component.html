@@ -3,28 +3,30 @@
   <div class="title2">当前显示周次：第{{week}}周（本周是第{{week}}周）</div>
   <nz-table #nzTable nzBordered="true" nzCustomNoResult="没有加载到课表数据！请刷新页面。" nzShowTotal="false" [nzPageSize]="12">
     <thead nz-thead>
-      <tr>
-        <th nz-th><sub>节</sub>\<sup>周</sup></th>
-        <th nz-th>周一</th>
-        <th nz-th>周二</th>
-        <th nz-th>周三</th>
-        <th nz-th>周四</th>
-        <th nz-th>周五</th>
-        <th nz-th>周六</th>
-        <th nz-th>周日</th>
-      </tr>
+    <tr>
+      <th nz-th><sub>节</sub>\<sup>周</sup></th>
+      <th nz-th>周一</th>
+      <th nz-th>周二</th>
+      <th nz-th>周三</th>
+      <th nz-th>周四</th>
+      <th nz-th>周五</th>
+      <th nz-th>周六</th>
+      <th nz-th>周日</th>
+    </tr>
     </thead>
     <tbody nz-tbody>
-      <tr nz-tr *ngFor="let t of timetable; let i = index">
-        <td style="background-color: #0E7BCC;min-height: 80px;color: #FFF;" nz-td>{{i + 1}}</td>
-        <td *ngFor="let c of t;" nz-td [attr.rowspan]="c.row" [ngStyle]="{'background-color':c.tbstyle === 'tb' ? '#FFDDDD' : '' }">
-          {{c.course}}
-          <br>
-          {{c.weeks}}
-          <br>
-          {{c.place}}
-        </td>
-      </tr>
+    <tr nz-tr *ngFor="let t of timetable; let i = index">
+      <td style="background-color: #0E7BCC;min-height: 80px;color: #FFF;" nz-td>{{i + 1}}</td>
+      <td *ngFor="let c of t;" nz-td [attr.rowspan]="c.length>0?c[0].row:1" [ngStyle]="{'background-color':c.length>0&&c[0].tbstyle == 'tb' ? '#FFDDDD' : '' }">
+        <p *ngFor="let q of c">
+          {{q.courseId}}<br>
+          {{q.course}}<br>
+          {{q.weeks}}<br>
+          {{q.place}}<br>
+          {{q.teacherName}}
+        </p>
+      </td>
+    </tr>
     </tbody>
   </nz-table>
 </div>

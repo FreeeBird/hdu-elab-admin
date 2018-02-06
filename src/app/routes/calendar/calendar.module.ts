@@ -9,6 +9,6 @@ import {SharedModule} from '../../shared.module';
 })
 
 export class CalendarModule {
-  constructor(){
+  constructor() {
   }
 }

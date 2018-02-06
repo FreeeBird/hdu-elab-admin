@@ -36,7 +36,7 @@ export class SiderComponent {
     },
     {
       'icon': 'user',
-      'name': 'User',
+      'name': '用户管理',
       'route': '/user'
     }];
 

@@ -1,8 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormGroup, Validators, FormBuilder} from '@angular/forms';
 import {CalendarService} from './calendar.service';
-import {Router} from '@angular/router';
-import {NzMessageService} from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-calendar',
@@ -20,30 +17,23 @@ import {NzMessageService} from 'ng-zorro-antd';
 // }
 
 export class CalendarComponent implements OnInit {
-  public week = 5;
-  public timetable = [
-    [{},{},{},{},{},{},{}],
-    [{},{},{},{},{},{},{}],
-    [{course: '数据库课程设计', weeks: '1-15单周', place: '1教115', tbstyle: 'tb', row: 3 },{},{},{},{},{},{}],
-    [{},{},{},{},{},{}],
-    [{},{},{course: '数据库', weeks: '1-8周', place: '3教211', tbstyle: 'tb', row: 3 },{},{},{}],
-    [{},{},{},{},{},{}],
-    [{},{},{},{},{},{}],
-    [{},{},{},{},{},{},{}],
-    [{},{},{},{},{},{},{}],
-    [{},{},{},{},{},{},{}],
-    [{},{},{},{},{},{},{}],
-    [{},{},{},{},{},{},{}]
-  ];
-  constructor(){
-  }
-  ngOnInit(): void {
-  }
-  setStyles(s){
-    let tb = {
-      'backgroud':'#FFDDDD'
-    };
-    if(s=='tb')
-      return tb;
-  }
+    public week = 5;
+    public timetable = [];
+    labId = '6';
+    constructor(private CalendarService: CalendarService) {
+        this.CalendarService.getCalendar('class/getCourseTableByLabId', this.labId)
+            .then((result: any) => {
+            this.timetable = JSON.parse(result['_body'])['courseTable']['courseTable'];
+        });
+    }
+    ngOnInit(): void {
+    }
+    setStyles(s) {
+        let tb = {
+            'backgroud': '#FFDDDD'
+        };
+        if (s === 'tb') {
+            return tb;
+        }
+    }
 }
