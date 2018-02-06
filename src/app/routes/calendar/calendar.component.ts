@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {CalendarService} from './calendar.service';
+import {SessionStorageService} from '@core/storage/storage.service';
 
 @Component({
   selector: 'app-calendar',
@@ -19,14 +20,22 @@ import {CalendarService} from './calendar.service';
 export class CalendarComponent implements OnInit {
     public week = 5;
     public timetable = [];
-    labId = '6';
-    constructor(private CalendarService: CalendarService) {
-        this.CalendarService.getCalendar('class/getCourseTableByLabId', this.labId)
+    public lab = [];
+    constructor(private CalendarService: CalendarService, private _storage: SessionStorageService) {
+    }
+    private getData() {
+        this.CalendarService.getLabId('lab/getLabByAdminUserName', this._storage.get('username'))
             .then((result: any) => {
-            this.timetable = JSON.parse(result['_body'])['courseTable']['courseTable'];
-        });
+                this.lab = JSON.parse(result['_body']).lab1List;
+                console.log(this.lab[4].id);
+                this.CalendarService.getCalendar('class/getCourseTableByLabId', this.lab[4].id)
+                    .then((res: any) => {
+                        this.timetable = JSON.parse(res['_body'])['courseTable']['courseTable'];
+                    });
+            });
     }
     ngOnInit(): void {
+        this.getData();
     }
     setStyles(s) {
         let tb = {

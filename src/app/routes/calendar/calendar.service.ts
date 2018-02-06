@@ -19,4 +19,15 @@ export class CalendarService {
                 });
         });
     }
+    getLabId( curl: any, username: any) {
+        let headers = new Headers({'Content-Type': 'application/json','charset': 'utf-8'});
+        let options = new RequestOptions({headers: headers});
+        let content = JSON.stringify({adminUserName: username});
+        return new Promise((resolve, reject) => {
+            this.http.post(host + curl, content, options)
+                .subscribe(result => {
+                    resolve(result);
+                });
+        });
+    }
 }

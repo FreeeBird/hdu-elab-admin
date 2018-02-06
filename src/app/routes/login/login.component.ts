@@ -27,10 +27,10 @@ export class LoginComponent implements OnInit {
       const password = this.validateForm.value.password;
       this.loginService.login(userName, password)
         .then(result => {
-          this.router.navigate(['']);
+              this.router.navigate(['']);
         }, (err) => {
           this.loadStatus = false;
-          this.loginBtn = 'Login';
+          this.loginBtn = '登录';
           this._message.error('登录失败！');
         });
     }
