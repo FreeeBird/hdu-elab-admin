@@ -17,9 +17,34 @@ export class DisarrangedService {
                 });
         });
     }
-    getLab() {
+    getOrderById( curl: any, id: any) {
+        let headers = new Headers({'Content-Type': 'application/json'});
+        let options = new RequestOptions({headers: headers});
+        let content = JSON.stringify({id: id});
         return new Promise((resolve, reject) => {
-            this.http.get('https://www.easy-mock.com/mock/5a73c90cb4ec7020fa2f63e8/example/orderdetail')
+            this.http.post(curl, content, options)
+                .subscribe(result => {
+                    resolve(result);
+                });
+        });
+    }
+    getUserByUserName( curl: any, userName: any) {
+        let headers = new Headers({'Content-Type': 'application/json'});
+        let options = new RequestOptions({headers: headers});
+        let content = JSON.stringify({userName: userName});
+        return new Promise((resolve, reject) => {
+            this.http.post(curl, content, options)
+                .subscribe(result => {
+                    resolve(result);
+                });
+        });
+    }
+    getLab( curl: any, id: any) {
+        let headers = new Headers({'Content-Type': 'application/json'});
+        let options = new RequestOptions({headers: headers});
+        let content = JSON.stringify({labId: id});
+        return new Promise((resolve, reject) => {
+            this.http.post(curl, content, options)
                 .subscribe(result => {
                     resolve(result);
                 });

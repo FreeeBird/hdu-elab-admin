@@ -17,25 +17,47 @@ export class DisarrangedComponent implements OnInit {
     }
     apiUrl = [
         'http://aliyun.charlesxu.cn:8080/LabManager/order/getUnfinishedSimpleOrderListByLabId', /*获取实验室的未安排预约*/
+        'http://aliyun.charlesxu.cn:8080/LabManager/user/getUserByUserName',
+        'http://aliyun.charlesxu.cn:8080/LabManager/order/getOrderById',
+        'http://aliyun.charlesxu.cn:8080/LabManager/lab/getLabById',
     ];
     labId = '6';
     orderList = [];
     orderDetails = [];
+    lab = [];
     // 获取预约列表
     private _getData = () => {
         this.DisarrangedService.getSimpleOrderList(this.apiUrl[0], this.labId)
             .then((result: any) => {
-                this.orderList = JSON.parse(result['_body'])['SimpleOrder'];
-                console.log(this.orderList);
+                const data = JSON.parse(result['_body'])['SimpleOrder'];
+                for (let i of data) {
+                    i.expand = false;
+                    this.DisarrangedService.getUserByUserName(this.apiUrl[1], i.userName)
+                        .then((res: any) => {
+                            i.userNickname = JSON.parse(res['_body'])['User1']['userNickname'];
+                        });
+                }
+                this.orderList = data;
             });
     }
     // 展开列表
-    private boolOpen(expand: boolean) {
+    private boolOpen(expand: boolean, id: any) {
         if (expand) {
-            this.DisarrangedService.getLab()
+            let data = [];
+            this.DisarrangedService.getOrderById(this.apiUrl[2], id)
                 .then((result: any) => {
-                    const { data } = result;
-                    this.orderDetails = data;
+                    const res = JSON.parse(result['_body'])['Order'];
+                    data = res.orderDetails;
+                    this.orderDetails[id] = data;
+                    for (let d of data) {
+                        for (let i = 0; i < d.lab.length; i++) {
+                            this.DisarrangedService.getLab(this.apiUrl[3], d.lab[i])
+                                .then((re: any) => {
+                                    const lab = JSON.parse(re['_body'])['lab'];
+                                    this.lab[d.lab[i]] = lab;
+                                });
+                        }
+                    }
                 });
         }
         return expand;

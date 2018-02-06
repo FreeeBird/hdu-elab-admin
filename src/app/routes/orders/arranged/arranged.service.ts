@@ -20,7 +20,7 @@ export class ArrangedService  {
                 });
         });
     }
-    getOrderById( curl: any, id: number) {
+    getOrderById( curl: any, id: any) {
         let headers = new Headers({'Content-Type': 'application/json'});
         let options = new RequestOptions({headers: headers});
         let content = JSON.stringify({id: id});
@@ -35,6 +35,17 @@ export class ArrangedService  {
         let headers = new Headers({'Content-Type': 'application/json'});
         let options = new RequestOptions({headers: headers});
         let content = JSON.stringify({userName: userName});
+        return new Promise((resolve, reject) => {
+            this.http.post(curl, content, options)
+                .subscribe(result => {
+                    resolve(result);
+                });
+        });
+    }
+    getLab( curl: any, id: any) {
+        let headers = new Headers({'Content-Type': 'application/json'});
+        let options = new RequestOptions({headers: headers});
+        let content = JSON.stringify({labId: id});
         return new Promise((resolve, reject) => {
             this.http.post(curl, content, options)
                 .subscribe(result => {

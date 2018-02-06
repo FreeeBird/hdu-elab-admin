@@ -18,17 +18,16 @@ export class ArrangedComponent implements OnInit {
        constructor(private _storage: SessionStorageService, private router: Router,
                 private ArrangedService: ArrangedService, private _message: NzMessageService) {
     }
-    pageSize = 5;
     labId = '6';
-       id = 3;
-    datas = [];
-    orders = [];
+    simpleOrderList = [];
     orderDetails = [];
+    lab = [];
     apiUrl = [
         'http://aliyun.charlesxu.cn:8080/LabManager/order/getFinishedSimpleOrderListByLabId',
         'http://aliyun.charlesxu.cn:8080/LabManager/order/getOrderByLabId',
         'http://aliyun.charlesxu.cn:8080/LabManager/order/getOrderById',
         'http://aliyun.charlesxu.cn:8080/LabManager/user/getUserByUserName',
+        'http://aliyun.charlesxu.cn:8080/LabManager/lab/getLabById',
     ];
     // 获取预约列表
     private _getData = () => {
@@ -42,34 +41,33 @@ export class ArrangedComponent implements OnInit {
                             i.userNickname = JSON.parse(res['_body'])['User1']['userNickname'];
                         });
                 }
-                this.datas = data;
+                this.simpleOrderList = data;
             });
-        /*this.ArrangedService.getOrderById(this.apiUrl[2], this.id)
-            .then((result: any) => {
-                const data = JSON.parse(result['_body'])['Order'];
-                console.log(data);
-            });*/
     }
     // 展开列表
-    private boolOpen(expand: boolean) {
+    private boolOpen(expand: boolean, id: any) {
         if (expand) {
-            this.ArrangedService.getSimpleOrders(this.apiUrl[1], this.labId)
+            let data = [];
+            this.ArrangedService.getOrderById(this.apiUrl[2], id)
                 .then((result: any) => {
-                    const data = JSON.parse(result['_body'])['Order'];
-                    this.orders = data;
+                    const res = JSON.parse(result['_body'])['Order'];
+                    data = res.orderDetails;
+                    this.orderDetails[id] = data;
+                    for (let d of data) {
+                        for (let i = 0; i < d.lab.length; i++) {
+                            this.ArrangedService.getLab(this.apiUrl[4], d.lab[i])
+                                .then((re: any) => {
+                                    const lab = JSON.parse(re['_body'])['lab'];
+                                    this.lab[d.lab[i]] = lab;
+                                });
+                        }
+                    }
                 });
         }
         return expand;
     }
-    private getNickNameByUserName(userName: any) {
-        this.ArrangedService.getUserByUserName(this.apiUrl[3], userName)
-            .then((result: any) => {
-                const data = JSON.parse(result['_body'])['User1']['userNickname'];
-                return data;
-            });
-    }
     private getDayByNum(num: number) {
-        const array = ['天', '一', '二', '三', '四', '五', '六', '天'];
+        const array = ['日', '一', '二', '三', '四', '五', '六', '日'];
         return array[num];
     }
     // 修改志愿1
@@ -80,6 +78,5 @@ export class ArrangedComponent implements OnInit {
 
     ngOnInit(): void {
         this._getData();
-        this.getNickNameByUserName('40392');
     }
 }

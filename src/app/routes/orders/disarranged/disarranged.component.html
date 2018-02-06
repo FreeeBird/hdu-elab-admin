@@ -8,7 +8,7 @@
     </div>
 </div>
 <br><br>
-<nz-table #nzTable [nzDataSource]="orderList" [nzPageSize]="5">
+<nz-table #nzTable [nzDataSource]="orderList" [nzPageSize]="5" [nzShowTotal]="true">
 <thead nz-thead>
 <tr>
         <th nz-th nzExpand></th>
@@ -24,11 +24,11 @@
 <tbody nz-tbody>
 <ng-template ngFor let-data [ngForOf]="nzTable.data">
     <tr nz-tbody-tr>
-        <td nz-td nzExpand (click)="this.boolOpen(data.expand)">
+        <td nz-td nzExpand (click)="this.boolOpen(data.expand, data.id)">
             <nz-row-expand-icon [(nzExpand)]="data.expand"></nz-row-expand-icon>
         </td>
         <td nz-td>{{data.id}}</td>
-        <td nz-td>{{data.userName}}</td>
+        <td nz-td>{{data.userNickname}}</td>
         <td nz-td>{{data.classId}}</td>
         <td nz-td>{{data.className}}</td>
         <td nz-td>{{data.classPeoCount}}</td>
@@ -38,18 +38,17 @@
 <tr nz-tbody-tr *ngIf="data.expand">
 <td nz-td colspan="8" style="padding: 0">
     <!--展开头-->
-    <div nz-row *ngFor="let orders of orderDetails">
-    <nz-alert [nzType]="'success'"  nzShowIcon="true"  style="text-align: center">
-        <span alert-body >
-            <span style="float: left">志愿{{orders.type}}</span>&nbsp;&nbsp;
-            <span>预约时间：星期{{getDayByNum(orders.weekDays)}}</span>&nbsp;&nbsp;
-             <span>预约周次：{{orders.orderWeek}}</span>&nbsp;&nbsp;
-             <span>预约节次：{{orders.classNum}}</span>&nbsp;&nbsp;
-             <span>班级人数：{{orders.classPeoCount}}</span>&nbsp;&nbsp;
-            <a *ngIf="orders.type==1" style="float: right" (click)="update(orders)">编辑</a>
-        </span>
-    </nz-alert>
-    <nz-table #nzTable [nzAjaxData]="orders.labs"  [nzIsPagination]="false">
+    <div nz-row *ngFor="let detail of orderDetails[data.id]">
+        <nz-alert [nzType]="'success'"  nzShowIcon="true"  style="text-align: center">
+                    <span alert-body >
+                        <span style="float: left">志愿{{detail.type}}</span>&nbsp;&nbsp;
+                        <span>预约时间：星期{{getDayByNum(detail.weekDays)}}</span>&nbsp;&nbsp;
+                        <span>预约节次：{{detail.classNum}}</span>&nbsp;&nbsp;
+                         <span>预约周次：{{detail.orderWeek}}</span>&nbsp;&nbsp;
+                        <a *ngIf="detail.type==1" style="float: right" (click)="update(data[id])">编辑</a>
+                    </span>
+        </nz-alert>
+        <nz-table #nzTable [nzDataSource]="detail.lab"  [nzIsPagination]="false">
     <thead nz-thead>
     <tr>
         <th nz-th><span>编号</span></th>
@@ -62,20 +61,20 @@
         <th nz-th><span>分配人数</span></th>
     </tr>
     </thead>
-    <tbody nz-tbody >
-    <tr nz-tbody-tr *ngFor="let o of orders.labs">
-        <td nz-td>{{o.id}}</td>
-        <td   nz-td>{{o.labName}}</td>
-        <td   nz-td>{{o.labBuild}}</td>
-        <td   nz-td>{{o.labNumber}}</td>
-        <td   nz-td>{{o.labPeoCount}}人</td>
-        <td   nz-td>{{o.labType}}</td>
-        <td   nz-td>{{o.adminUserName}}</td>
-        <td   nz-td>{{o.peoCount}}人</td>
+    <tbody nz-tbody *ngFor="let i of [0,1,2]" >
+    <tr nz-tbody-tr *ngIf="i<detail.lab.length&&lab[detail.lab[i]]!=null" >
+        <td nz-td>{{detail.lab[i]}}</td>
+        <td nz-td>{{lab[detail.lab[i]].labName}}</td>
+        <td nz-td>{{lab[detail.lab[i]].labBuild}}</td>
+        <td nz-td>{{lab[detail.lab[i]].labNumber}}</td>
+        <td nz-td>{{lab[detail.lab[i]].labPeoCount}}</td>
+        <td nz-td>{{lab[detail.lab[i]].labType}}</td>
+        <td nz-td>{{lab[detail.lab[i]].adminUserName}}</td>
+        <td nz-td>{{detail.labArrangedPeoCount[i]}}</td>
     </tr>
     </tbody>
-    </nz-table>
-    <br>
+</nz-table>
+<br>
 </div>
     <!--展开尾-->
 </td>
