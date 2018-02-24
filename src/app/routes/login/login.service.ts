@@ -6,7 +6,7 @@ import {Headers, Http, RequestOptions} from '@angular/http';
 export class LoginService {
     constructor(private _storage: SessionStorageService, private http: Http) {
     }
-    mess = '';
+    mess = -1;
     login(username: string, password: string) {
         let headers = new Headers({'Content-Type': 'application/json'});
         let options = new RequestOptions({headers: headers});
@@ -18,7 +18,7 @@ export class LoginService {
                     this.mess = JSON.parse(result['_body']).result;
                 });
             setTimeout(() => {
-                if (this.mess ===  'success') {
+                if (this.mess ===  1) {
                     this._storage.set('username', username);
                     resolve(true);
                 } else {
