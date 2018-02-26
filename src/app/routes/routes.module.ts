@@ -2,11 +2,12 @@ import {NgModule} from '@angular/core';
 import {RouterModule} from '@angular/router';
 import {IndexModule} from './index/index.module';
 import {HomeModule} from './home/home.module';
-import {UserModule} from './user/user.module';
 import {LoginModule} from './login/login.module';
 import {routes} from './routes';
 import {CalendarModule} from './calendar/calendar.module';
 import {OrdersModule} from './orders/orders.module';
+import {passwordEditModule} from './passwordEdit/passwordEdit.module';
+import {ProfileModule} from './profile/profile.module';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import {OrdersModule} from './orders/orders.module';
     exports: [
         IndexModule,
         HomeModule,
-        UserModule,
+        passwordEditModule,
+        ProfileModule,
         LoginModule,
         CalendarModule,
         OrdersModule

@@ -20,4 +20,10 @@ export class HeaderComponent {
     this._storage.clear();
     this.router.navigate(['login']);
   }
+    profile() {
+        this.router.navigate(['profile']);
+    }
+    modifyPass() {
+        this.router.navigate(['passwordEdit']);
+    }
 }

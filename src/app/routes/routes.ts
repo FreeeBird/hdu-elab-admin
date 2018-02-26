@@ -4,12 +4,13 @@ import {Routes, RouterModule} from '@angular/router';
 import {HomeComponent} from './home/home.component';
 import {LoginComponent} from './login/login.component';
 import {IndexComponent} from './index/index.component';
-import {UserComponent} from './user/user.component';
 import {CanAuthProvide} from '@core/services/auth.service';
 import {CalendarComponent} from './calendar/calendar.component';
 import {ArrangedComponent} from './orders/arranged/arranged.component';
 import {DisarrangedComponent} from './orders/disarranged/disarranged.component';
 import {AlterComponent} from './orders/alter/alter.component';
+import {ProfileComponent} from './profile/profile.component';
+import {passwordEditComponent} from './passwordEdit/passwordEdit.component';
 
 export const routes: Routes = [
     {path: 'login', component: LoginComponent, canLoad: [CanAuthProvide]},
@@ -20,12 +21,6 @@ export const routes: Routes = [
                 path: 'index', component: IndexComponent, canActivate: [CanAuthProvide],
                 data: {
                     breadcrumb: '首页'
-                }
-            },
-            {
-                path: 'user', component: UserComponent, canActivate: [CanAuthProvide],
-                data: {
-                    breadcrumb: '用户'
                 }
             },
             {
@@ -45,9 +40,19 @@ export const routes: Routes = [
                     breadcrumb: '未安排预约'
                 }
             }, {
-                path: 'alter/:id', component: AlterComponent, canActivate: [CanAuthProvide],
+                path: 'alter', component: AlterComponent, canActivate: [CanAuthProvide],
                 data: {
                     breadcrumb: '预约修改'
+                }
+            },  {
+                path: 'profile', component: ProfileComponent, canActivate: [CanAuthProvide],
+                data: {
+                    breadcrumb: '个人资料'
+                }
+            },  {
+                path: 'passwordEdit', component: passwordEditComponent, canActivate: [CanAuthProvide],
+                data: {
+                    breadcrumb: '密码修改'
                 }
             },
             {path: '', redirectTo: 'index', pathMatch: 'full'}
