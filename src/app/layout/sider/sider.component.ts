@@ -33,11 +33,6 @@ export class SiderComponent {
           'name': '未安排预约',
           'route': '/disarranged'
       }]
-    },
-    {
-      'icon': 'user',
-      'name': '用户管理',
-      'route': '/user'
     }];
 
   constructor(public settings: SettingsService, private menuService: MenuService) {
