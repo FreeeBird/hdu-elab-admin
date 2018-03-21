@@ -12,7 +12,6 @@
 <thead nz-thead>
 <tr>
         <th nz-th nzExpand></th>
-        <th nz-th><span>id</span></th>
         <th nz-th><span>教师名称</span></th>
         <th nz-th><span>课程号</span></th>
         <th nz-th><span>课程名称</span></th>
@@ -27,7 +26,6 @@
         <td nz-td nzExpand (click)="this.boolOpen(data.expand, data.id)">
             <nz-row-expand-icon [(nzExpand)]="data.expand"></nz-row-expand-icon>
         </td>
-        <td nz-td>{{data.id}}</td>
         <td nz-td>{{data.userNickname}}</td>
         <td nz-td>{{data.classId}}</td>
         <td nz-td>{{data.className}}</td>

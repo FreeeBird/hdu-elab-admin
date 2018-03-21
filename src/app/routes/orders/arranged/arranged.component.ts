@@ -73,7 +73,9 @@ export class ArrangedComponent implements OnInit {
     // 修改志愿1
     private update(data: any) {
         console.log(data);
-        this.router.navigate(['/alter', data.type]);
+        const str = JSON.stringify(data);
+        this._storage.set('order', str);
+        this.router.navigate(['/arranged/edit']);
     }
 
     ngOnInit(): void {

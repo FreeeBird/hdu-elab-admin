@@ -5,13 +5,15 @@ import {ComponentsModule} from '@components/components.module';
 import {ArrangedComponent} from './arranged/arranged.component';
 import {DisarrangedComponent} from './disarranged/disarranged.component';
 import {AlterComponent} from './alter/alter.component';
+import {OrderDetailComponent} from './orderDetail/orderDetail.component';
 
 @NgModule({
   declarations: [
     OrdersComponent,
     ArrangedComponent,
     DisarrangedComponent,
-    AlterComponent
+    AlterComponent,
+    OrderDetailComponent
   ],
   imports: [
     SharedModule.forRoot(),

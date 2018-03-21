@@ -11,6 +11,7 @@ import {DisarrangedComponent} from './orders/disarranged/disarranged.component';
 import {AlterComponent} from './orders/alter/alter.component';
 import {ProfileComponent} from './profile/profile.component';
 import {passwordEditComponent} from './passwordEdit/passwordEdit.component';
+import {OrderDetailComponent} from './orders/orderDetail/orderDetail.component';
 
 export const routes: Routes = [
     {path: 'login', component: LoginComponent, canLoad: [CanAuthProvide]},
@@ -40,7 +41,7 @@ export const routes: Routes = [
                     breadcrumb: '未安排预约'
                 }
             }, {
-                path: 'alter', component: AlterComponent, canActivate: [CanAuthProvide],
+                path: 'arranged/edit', component: OrderDetailComponent, canActivate: [CanAuthProvide],
                 data: {
                     breadcrumb: '预约修改'
                 }
