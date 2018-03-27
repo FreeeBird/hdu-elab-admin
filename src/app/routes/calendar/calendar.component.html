@@ -1,6 +1,6 @@
 <div id="calendar">
   <div class="title1"><h2>本周上机课程</h2></div>
-  <div class="title2">当前显示周次：第{{week}}周（本周是第{{week}}周）</div>
+  <div class="title2">当前显示周次：{{nowSemester.nowSemester}}</div>
   <nz-table #nzTable nzBordered="true" nzCustomNoResult="没有加载到课表数据！请刷新页面。" nzShowTotal="false" [nzPageSize]="12">
     <thead nz-thead>
     <tr>

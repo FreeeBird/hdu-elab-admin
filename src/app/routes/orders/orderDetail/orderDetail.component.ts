@@ -141,12 +141,7 @@ export class OrderDetailComponent implements OnInit {
             this._storage.remove('order');
             }
         this.validateForm = this.fb.group({
-            classId: [null, [Validators.required]],
-            className: [null, [Validators.required]],
-            week: [null, [Validators.required]],
-            weekday: [null, [Validators.required]],
-            classNum: [null, [Validators.required]],
-            classPeoCount: [null, [Validators.required]],
-        })
+            orderId: [null, [Validators.required]],
+        });
     }
 }

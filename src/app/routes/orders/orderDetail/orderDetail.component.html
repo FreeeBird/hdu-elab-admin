@@ -17,13 +17,13 @@
       </div>
     </div>
     <div class="formItem" nz-form-item>
-      <div nz-form-control [nzValidateStatus]="validateForm.controls.id"  [nzValidateStatus]="getFormControl('id')"  nzHasFeedback >
-        <label for="id" nz-col nzSpan="10">预约号：</label>
+      <div nz-form-control [nzValidateStatus]="validateForm.controls.orderId"  [nzValidateStatus]="getFormControl('orderId')"  nzHasFeedback >
+        <label for="orderId" nz-col nzSpan="10">预约号：</label>
         <div nz-col nzSpan="12">
-          <input nz-input id="id" formControlName="id" [(ngModel)]="">
+          <input nz-input id="orderId" formControlName="orderId"  />
         </div>
         <div class="help">
-          <div nz-col nzSpan="12" [nzOffset]="'10'" nz-form-explain *ngIf="validateForm.controls.id.dirty&&validateForm.controls.id.hasError('required')">课程号为必选项！</div>
+          <div nz-col nzSpan="12" [nzOffset]="'10'" nz-form-explain *ngIf="validateForm.controls.orderId.dirty&&validateForm.controls.orderId.hasError('required')">课程号为必选项！</div>
         </div>
       </div>
     </div>
@@ -80,7 +80,6 @@
                     formControlName="weekday"
                     [nzPlaceHolder]="'星期 '"
                     nzShowSearch="true"
-                    [(ngModel)]=""
             >
               <nz-option
                       *ngFor="let option of weekday"
@@ -94,7 +93,6 @@
                     id="classNum"
                     [nzPlaceHolder]="'第 节'"
                     formControlName="classNum"
-                    [(ngModel)]=""
                     nzShowSearch="true">
               <nz-option
                       *ngFor="let option of classNum"

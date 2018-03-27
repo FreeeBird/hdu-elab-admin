@@ -18,11 +18,28 @@ import {SessionStorageService} from '@core/storage/storage.service';
 // }
 
 export class CalendarComponent implements OnInit {
-    public week = 5;
     public timetable = [];
     constructor(private CalendarService: CalendarService, private _storage: SessionStorageService) {
     }
+    apiUrl = [
+        'http://aliyun.charlesxu.cn:8080/LabManager/semester/getNowSemester', // 0
+    ];
+    // 获取学期
+    nowSemester = {
+        nowSemester: '',
+        maxWeek: 17
+    };
+    private getSemester() {
+        this.CalendarService.executeGET(this.apiUrl[0])
+            .then((result: any) => {
+                const res = JSON.parse(result['_body']);
+                if (res['result'] === 'success') {
+                    this.nowSemester = res['NowSemester'];
+                }
+            });
+    }
     private getData() {
+        this.getSemester();
         this.CalendarService.getLabId('lab/getLabByAdminUserName', this._storage.get('username'))
             .then((result: any) => {
                 const data = JSON.parse(result['_body']).lab1List;

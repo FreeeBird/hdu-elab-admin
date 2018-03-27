@@ -18,7 +18,6 @@ export class ArrangedComponent implements OnInit {
        constructor(private _storage: SessionStorageService, private router: Router,
                 private ArrangedService: ArrangedService, private _message: NzMessageService) {
     }
-    labId = '6';
     simpleOrderList = [];
     orderDetails = [];
     lab = [];
@@ -28,9 +27,25 @@ export class ArrangedComponent implements OnInit {
         'http://aliyun.charlesxu.cn:8080/LabManager/order/getOrderById',
         'http://aliyun.charlesxu.cn:8080/LabManager/user/getUserByUserName',
         'http://aliyun.charlesxu.cn:8080/LabManager/lab/getLabById',
+        'http://aliyun.charlesxu.cn:8080/LabManager/semester/getNowSemester', // 5
     ];
+    // 获取学期
+    nowSemester = {
+        nowSemester: '',
+        maxWeek: 17
+    };
+    private getSemester() {
+        this.ArrangedService.executeGET(this.apiUrl[5])
+            .then((result: any) => {
+                const res = JSON.parse(result['_body']);
+                if (res['result'] === 'success') {
+                    this.nowSemester = res['NowSemester'];
+                }
+            });
+    }
     // 获取预约列表
     private _getData = () => {
+        this.getSemester();
         this.ArrangedService.getSimpleOrders(this.apiUrl[0], this._storage.get('labId'))
             .then((result: any) => {
                 const data = JSON.parse(result['_body'])['SimpleOrder'];
@@ -72,7 +87,6 @@ export class ArrangedComponent implements OnInit {
     }
     // 修改志愿1
     private update(data: any) {
-        console.log(data);
         const str = JSON.stringify(data);
         this._storage.set('order', str);
         this.router.navigate(['/arranged/edit']);

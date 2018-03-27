@@ -6,6 +6,16 @@ import {Http, Headers, RequestOptions} from '@angular/http';
 export class DisarrangedService {
     constructor(private _storage: SessionStorageService, private http: Http) {
     }
+    executeGET(curl: any) {
+        let headers = new Headers({'Content-Type': 'application/json', 'charset': 'utf-8'});
+        let options = new RequestOptions({headers: headers});
+        return new Promise((resolve, reject) => {
+            this.http.get(curl)
+                .subscribe(result => {
+                    resolve(result);
+                });
+        });
+    }
     getSimpleOrderList( curl: any, labId: any) {
         let headers = new Headers({'Content-Type': 'application/json'});
         let options = new RequestOptions({headers: headers});

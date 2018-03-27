@@ -8,6 +8,16 @@ const host = 'http://aliyun.charlesxu.cn:8080/LabManager/';
 export class CalendarService {
     constructor(private _storage: SessionStorageService, private http: Http) {
     }
+    executeGET(curl: any) {
+        let headers = new Headers({'Content-Type': 'application/json', 'charset': 'utf-8'});
+        let options = new RequestOptions({headers: headers});
+        return new Promise((resolve, reject) => {
+            this.http.get(curl)
+                .subscribe(result => {
+                    resolve(result);
+                });
+        });
+    }
     getCalendar( curl: any, labId: any) {
         let headers = new Headers({'Content-Type': 'application/json','charset': 'utf-8'});
         let options = new RequestOptions({headers: headers});

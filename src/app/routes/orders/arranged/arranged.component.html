@@ -4,7 +4,7 @@
 <br>
 <div nz-row>
     <div nz-col [nzSpan]="22">
-        <p>当前学期：2017学年第一学期（本周为第11周）</p>
+        <p>当前学期：{{nowSemester.nowSemester}}</p>
     </div>
 </div>
 <br><br>
@@ -72,6 +72,7 @@
                     </tr>
                     </tbody>
                 </nz-table>
+                <span>需要的软件及备注：{{data.remark}}</span>
                 <br>
                 </div>
                 <!--展开尾-->
