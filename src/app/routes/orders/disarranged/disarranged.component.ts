@@ -16,11 +16,12 @@ export class DisarrangedComponent implements OnInit {
     private DisarrangedService: DisarrangedService) {
     }
     apiUrl = [
-        'http://aliyun.charlesxu.cn:8080/LabManager/order/getUnfinishedSimpleOrderListByLabId', /*获取实验室的未安排预约*/
-        'http://aliyun.charlesxu.cn:8080/LabManager/user/getUserByUserName',
-        'http://aliyun.charlesxu.cn:8080/LabManager/order/getOrderById',
-        'http://aliyun.charlesxu.cn:8080/LabManager/lab/getLabById',
-        'http://aliyun.charlesxu.cn:8080/LabManager/semester/getNowSemester', // 4
+        'order/getUnfinishedSimpleOrderListByLabId', /*0获取实验室的未安排预约*/
+        'user/getUserByUserName', // 1获取用户信息
+        'order/getOrderById', // 2获取预约
+        'lab/getLabById', // 3 获取实验室
+        'semester/getNowSemester', // 4
+        'user/getUserByUserName', // 5获取管理员信息
     ];
     orderList = [];
     orderDetails = [];
@@ -47,6 +48,7 @@ export class DisarrangedComponent implements OnInit {
                 const data = JSON.parse(result['_body'])['SimpleOrder'];
                 for (let i of data) {
                     i.expand = false;
+                    // 获取教师信息
                     this.DisarrangedService.executeHTTP(this.apiUrl[1], {userName: i.userName})
                         .then((res: any) => {
                             let temp = JSON.parse(res['_body'])['User1'];
@@ -62,6 +64,7 @@ export class DisarrangedComponent implements OnInit {
     private boolOpen(expand: boolean, id: any) {
         if (expand) {
             let data = [];
+            // 获取预约详细信息
             this.DisarrangedService.executeHTTP(this.apiUrl[2], {id: id})
                 .then((result: any) => {
                     const res = JSON.parse(result['_body'])['Order'];
@@ -69,10 +72,18 @@ export class DisarrangedComponent implements OnInit {
                     this.orderDetails[id] = data;
                     for (let d of data) {
                         for (let i = 0; i < d.lab.length; i++) {
+                            // 获取实验室信息
                             this.DisarrangedService.executeHTTP(this.apiUrl[3], {labId: d.lab[i]})
                                 .then((re: any) => {
                                     const lab = JSON.parse(re['_body'])['lab'];
                                     this.lab[d.lab[i]] = lab;
+                                    // 获取管理员联系方式
+                                    this.DisarrangedService.executeHTTP(this.apiUrl[5], {userName: this.lab[d.lab[i]].userName})
+                                        .then((results: any) => {
+                                            const te = JSON.parse(results['_body'])['User1'];
+                                            this.lab[d.lab[i]].email = te.email;
+                                            this.lab[d.lab[i]].phone = te.phone;
+                                        });
                                 });
                         }
                     }

@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {SessionStorageService} from '@core/storage/storage.module';
 import {Http, Headers, RequestOptions} from '@angular/http';
+const host = 'http://aliyun.charlesxu.cn:8080/LabManager/';
 
 
 @Injectable()
@@ -11,7 +12,7 @@ export class ArrangedService  {
         let headers = new Headers({'Content-Type': 'application/json', 'charset': 'utf-8'});
         let options = new RequestOptions({headers: headers});
         return new Promise((resolve, reject) => {
-            this.http.get(curl)
+            this.http.get(host + curl)
                 .subscribe(result => {
                     resolve(result);
                 });
@@ -22,51 +23,7 @@ export class ArrangedService  {
         let options = new RequestOptions({headers: headers});
         let content = JSON.stringify(data);
         return new Promise((resolve, reject) => {
-            this.http.post(curl, content, options)
-                .subscribe(result => {
-                    resolve(result);
-                });
-        });
-    }
-    getSimpleOrders( curl: any, labId: any) {
-        let headers = new Headers({'Content-Type': 'application/json'});
-        let options = new RequestOptions({headers: headers});
-        let content = JSON.stringify({labId: labId});
-        return new Promise((resolve, reject) => {
-            this.http.post(curl, content, options)
-                .subscribe(result => {
-                    resolve(result);
-                });
-        });
-    }
-    getOrderById( curl: any, id: any) {
-        let headers = new Headers({'Content-Type': 'application/json'});
-        let options = new RequestOptions({headers: headers});
-        let content = JSON.stringify({id: id});
-        return new Promise((resolve, reject) => {
-            this.http.post(curl, content, options)
-                .subscribe(result => {
-                    resolve(result);
-                });
-        });
-    }
-    getUserByUserName( curl: any, userName: any) {
-        let headers = new Headers({'Content-Type': 'application/json'});
-        let options = new RequestOptions({headers: headers});
-        let content = JSON.stringify({userName: userName});
-        return new Promise((resolve, reject) => {
-            this.http.post(curl, content, options)
-                .subscribe(result => {
-                    resolve(result);
-                });
-        });
-    }
-    getLab( curl: any, id: any) {
-        let headers = new Headers({'Content-Type': 'application/json'});
-        let options = new RequestOptions({headers: headers});
-        let content = JSON.stringify({labId: id});
-        return new Promise((resolve, reject) => {
-            this.http.post(curl, content, options)
+            this.http.post(host + curl, content, options)
                 .subscribe(result => {
                     resolve(result);
                 });

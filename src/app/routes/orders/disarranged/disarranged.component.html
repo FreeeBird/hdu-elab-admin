@@ -75,7 +75,15 @@
         <td nz-td>{{lab[detail.lab[i]].labNumber}}</td>
         <td nz-td>{{lab[detail.lab[i]].labPeoCount}}</td>
         <td nz-td>{{lab[detail.lab[i]].labType}}</td>
-        <td nz-td>{{lab[detail.lab[i]].adminName}}</td>
+        <td nz-td>
+            <nz-popover [nzTitle]="'联系方式'">
+                <span nz-popover>{{lab[detail.lab[i]].adminName}}</span>
+                <ng-template #nzTemplate>
+                    <div><p>电话：{{lab[detail.lab[i]].phone}}</p>
+                        <p>邮箱：{{lab[detail.lab[i]].email}}</p></div>
+                </ng-template>
+            </nz-popover>
+        </td>
         <td nz-td>{{detail.labArrangedPeoCount[i]}}</td>
     </tr>
     </tbody>

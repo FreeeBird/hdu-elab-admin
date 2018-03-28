@@ -22,12 +22,13 @@ export class ArrangedComponent implements OnInit {
     orderDetails = [];
     lab = [];
     apiUrl = [
-        'http://aliyun.charlesxu.cn:8080/LabManager/order/getFinishedSimpleOrderListByLabId',
-        'http://aliyun.charlesxu.cn:8080/LabManager/order/getOrderByLabId',
-        'http://aliyun.charlesxu.cn:8080/LabManager/order/getOrderById',
-        'http://aliyun.charlesxu.cn:8080/LabManager/user/getUserByUserName',
-        'http://aliyun.charlesxu.cn:8080/LabManager/lab/getLabById',
-        'http://aliyun.charlesxu.cn:8080/LabManager/semester/getNowSemester', // 5
+        'order/getFinishedSimpleOrderListByLabId', // 0获取完成预约
+        'order/getOrderByLabId', // 1获取实验室预约
+        'order/getOrderById', // 2获取预约
+        'user/getUserByUserName', // 3获取教师信息
+        'lab/getLabById', // 4获取实验室
+        'semester/getNowSemester', // 5获取学期
+        'user/getUserByUserName', // 6获取管理员信息
     ];
     // 获取学期
     nowSemester = {
@@ -46,11 +47,13 @@ export class ArrangedComponent implements OnInit {
     // 获取预约列表
     private _getData = () => {
         this.getSemester();
+        // 获取实验室已安排预约列表
         this.ArrangedService.executeHTTP(this.apiUrl[0], {labId: this._storage.get('labId')})
             .then((result: any) => {
                 const data = JSON.parse(result['_body'])['SimpleOrder'];
                 for (let i of data) {
                     i.expand = false;
+                    // 获取教师信息
                     this.ArrangedService.executeHTTP(this.apiUrl[3], {userName: i.userName})
                         .then((res: any) => {
                             let temp = JSON.parse(res['_body'])['User1'];
@@ -66,18 +69,29 @@ export class ArrangedComponent implements OnInit {
     private boolOpen(expand: boolean, id: any) {
         if (expand) {
             let data = [];
+            // 获取实验室预约信息
             this.ArrangedService.executeHTTP(this.apiUrl[2], {id: id})
                 .then((result: any) => {
                     const res = JSON.parse(result['_body'])['Order'];
                     data = res.orderDetails;
                     this.orderDetails[id] = data;
-                    for (let d of data) {
+                    for (const d of data) {
                         for (let i = 0; i < d.lab.length; i++) {
-                            this.ArrangedService.executeHTTP(this.apiUrl[4], {labId: d.lab[i]})
-                                .then((re: any) => {
-                                    const lab = JSON.parse(re['_body'])['lab'];
-                                    this.lab[d.lab[i]] = lab;
-                                });
+                            if (this.lab[d.lab[i]] == null) {
+                                // 获取实验室信息
+                                this.ArrangedService.executeHTTP(this.apiUrl[4], {labId: d.lab[i]})
+                                    .then((re: any) => {
+                                        const lab = JSON.parse(re['_body'])['lab'];
+                                        this.lab[d.lab[i]] = lab;
+                                        // 获取管理员联系方式
+                                        this.ArrangedService.executeHTTP(this.apiUrl[6], {userName: this.lab[d.lab[i]].userName})
+                                            .then((results: any) => {
+                                                const te = JSON.parse(results['_body'])['User1'];
+                                                this.lab[d.lab[i]].email = te.email;
+                                                this.lab[d.lab[i]].phone = te.phone;
+                                            });
+                                    });
+                            }
                         }
                     }
                 });
