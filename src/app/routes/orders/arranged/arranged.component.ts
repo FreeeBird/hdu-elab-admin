@@ -46,14 +46,17 @@ export class ArrangedComponent implements OnInit {
     // 获取预约列表
     private _getData = () => {
         this.getSemester();
-        this.ArrangedService.getSimpleOrders(this.apiUrl[0], this._storage.get('labId'))
+        this.ArrangedService.executeHTTP(this.apiUrl[0], {labId: this._storage.get('labId')})
             .then((result: any) => {
                 const data = JSON.parse(result['_body'])['SimpleOrder'];
                 for (let i of data) {
                     i.expand = false;
-                    this.ArrangedService.getUserByUserName(this.apiUrl[3], i.userName)
+                    this.ArrangedService.executeHTTP(this.apiUrl[3], {userName: i.userName})
                         .then((res: any) => {
-                            i.userNickname = JSON.parse(res['_body'])['User1']['userNickname'];
+                            let temp = JSON.parse(res['_body'])['User1'];
+                            i.userNickname = temp.userNickname;
+                            i.email = temp.email;
+                            i.phone = temp.phone;
                         });
                 }
                 this.simpleOrderList = data;
@@ -63,14 +66,14 @@ export class ArrangedComponent implements OnInit {
     private boolOpen(expand: boolean, id: any) {
         if (expand) {
             let data = [];
-            this.ArrangedService.getOrderById(this.apiUrl[2], id)
+            this.ArrangedService.executeHTTP(this.apiUrl[2], {id: id})
                 .then((result: any) => {
                     const res = JSON.parse(result['_body'])['Order'];
                     data = res.orderDetails;
                     this.orderDetails[id] = data;
                     for (let d of data) {
                         for (let i = 0; i < d.lab.length; i++) {
-                            this.ArrangedService.getLab(this.apiUrl[4], d.lab[i])
+                            this.ArrangedService.executeHTTP(this.apiUrl[4], {labId: d.lab[i]})
                                 .then((re: any) => {
                                     const lab = JSON.parse(re['_body'])['lab'];
                                     this.lab[d.lab[i]] = lab;

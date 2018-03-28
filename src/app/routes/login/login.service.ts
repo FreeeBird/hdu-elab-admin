@@ -1,30 +1,31 @@
 import {Injectable} from '@angular/core';
 import {SessionStorageService} from '@core/storage/storage.module';
 import {Headers, Http, RequestOptions} from '@angular/http';
+const host = 'http://aliyun.charlesxu.cn:8080/LabManager/';
 
 @Injectable()
 export class LoginService {
     constructor(private _storage: SessionStorageService, private http: Http) {
     }
-    mess = -1;
-    login(username: string, password: string) {
+    executeGET(curl: any) {
+        let headers = new Headers({'Content-Type': 'application/json', 'charset': 'utf-8'});
+        let options = new RequestOptions({headers: headers});
+        return new Promise((resolve, reject) => {
+            this.http.get(host + curl)
+                .subscribe(result => {
+                    resolve(result);
+                });
+        });
+    }
+    executeHTTP( curl: any, data: any) {
         let headers = new Headers({'Content-Type': 'application/json'});
         let options = new RequestOptions({headers: headers});
-        let content = JSON.stringify({userName: username, password: password});
-        let curl = 'http://aliyun.charlesxu.cn:8080/LabManager/user/adminLogin';
+        let content = JSON.stringify(data);
         return new Promise((resolve, reject) => {
-            this.http.post(curl, content, options)
+            this.http.post(host + curl, content, options)
                 .subscribe(result => {
-                    this.mess = JSON.parse(result['_body']).result;
+                    resolve(result);
                 });
-            setTimeout(() => {
-                if (this.mess ===  1) {
-                    this._storage.set('username', username);
-                    resolve(true);
-                } else {
-                    reject(false);
-                }
-            }, 1000);
         });
     }
 }

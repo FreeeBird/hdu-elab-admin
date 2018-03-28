@@ -26,7 +26,15 @@
         <td nz-td nzExpand (click)="this.boolOpen(data.expand, data.id)">
             <nz-row-expand-icon [(nzExpand)]="data.expand"></nz-row-expand-icon>
         </td>
-        <td nz-td>{{data.userNickname}}</td>
+        <td nz-td>
+            <nz-popover [nzTitle]="'联系方式'">
+                <span nz-popover>{{data.userNickname}}</span>
+                <ng-template #nzTemplate>
+                    <div><p>电话：{{data.phone}}</p>
+                        <p>邮箱：{{data.email}}</p></div>
+                </ng-template>
+            </nz-popover>
+        </td>
         <td nz-td>{{data.classId}}</td>
         <td nz-td>{{data.className}}</td>
         <td nz-td>{{data.classPeoCount}}</td>

@@ -22,7 +22,8 @@ export class CalendarComponent implements OnInit {
     constructor(private CalendarService: CalendarService, private _storage: SessionStorageService) {
     }
     apiUrl = [
-        'http://aliyun.charlesxu.cn:8080/LabManager/semester/getNowSemester', // 0
+        'semester/getNowSemester', // 0获取学期
+        'class/getCourseTableByLabId', // 1获取课表
     ];
     // 获取学期
     nowSemester = {
@@ -40,15 +41,9 @@ export class CalendarComponent implements OnInit {
     }
     private getData() {
         this.getSemester();
-        this.CalendarService.getLabId('lab/getLabByAdminUserName', this._storage.get('username'))
-            .then((result: any) => {
-                const data = JSON.parse(result['_body']).lab1List;
-                this._storage.set('labId', data[0].id);
-                this.CalendarService.getCalendar('class/getCourseTableByLabId', this._storage.get('labId'))
-                    .then((res: any) => {
-                        console.log(JSON.parse(res['_body']));
-                        this.timetable = JSON.parse(res['_body'])['courseTable']['courseTable'];
-                    });
+        this.CalendarService.executeHTTP(this.apiUrl[1], { labId: this._storage.get('labId')})
+            .then((res: any) => {
+                this.timetable = JSON.parse(res['_body'])['courseTable']['courseTable'];
             });
     }
     ngOnInit(): void {

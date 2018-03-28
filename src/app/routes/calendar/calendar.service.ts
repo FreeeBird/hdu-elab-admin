@@ -12,27 +12,16 @@ export class CalendarService {
         let headers = new Headers({'Content-Type': 'application/json', 'charset': 'utf-8'});
         let options = new RequestOptions({headers: headers});
         return new Promise((resolve, reject) => {
-            this.http.get(curl)
+            this.http.get(host + curl)
                 .subscribe(result => {
                     resolve(result);
                 });
         });
     }
-    getCalendar( curl: any, labId: any) {
-        let headers = new Headers({'Content-Type': 'application/json','charset': 'utf-8'});
+    executeHTTP( curl: any, data: any) {
+        let headers = new Headers({'Content-Type': 'application/json', 'charset': 'utf-8'});
         let options = new RequestOptions({headers: headers});
-        let content = JSON.stringify({labId: labId});
-        return new Promise((resolve, reject) => {
-            this.http.post(host + curl, content, options)
-                .subscribe(result => {
-                    resolve(result);
-                });
-        });
-    }
-    getLabId( curl: any, username: any) {
-        let headers = new Headers({'Content-Type': 'application/json','charset': 'utf-8'});
-        let options = new RequestOptions({headers: headers});
-        let content = JSON.stringify({adminUserName: username});
+        let content = JSON.stringify(data);
         return new Promise((resolve, reject) => {
             this.http.post(host + curl, content, options)
                 .subscribe(result => {
