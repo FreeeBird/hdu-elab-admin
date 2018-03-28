@@ -1,5 +1,12 @@
 <div nz-row>
+    <div div nz-col [nzSpan]="22">
     <h1>未安排预约</h1>
+    </div>
+    <div nz-col [nzSpan]="2" style="margin-left: -2em">
+        <button nz-button [nzType]="'primary'" [nzSize]="'large'" (click)="autoArrange()">
+            <span>自动排课</span>
+        </button>
+    </div>
 </div>
 <br>
 <div nz-row>

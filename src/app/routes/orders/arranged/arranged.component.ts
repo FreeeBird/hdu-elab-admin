@@ -1,9 +1,10 @@
 ///<reference path="../../../../../node_modules/@angular/forms/src/model.d.ts"/>
 import {Component, OnInit} from '@angular/core';
 import {ArrangedService} from './arranged.service';
-import {NzMessageService} from 'ng-zorro-antd';
+import {NzMessageService, NzModalService} from 'ng-zorro-antd';
 import {SessionStorageService} from '@core/storage/storage.service';
 import {Router} from '@angular/router';
+import {FormBuilder, FormGroup} from '@angular/forms';
 
 
 @Component({
@@ -15,9 +16,11 @@ import {Router} from '@angular/router';
 
 export class ArrangedComponent implements OnInit {
 
-       constructor(private _storage: SessionStorageService, private router: Router,
-                private ArrangedService: ArrangedService, private _message: NzMessageService) {
+       constructor(private _storage: SessionStorageService, private router: Router,  private fb: FormBuilder,
+                private ArrangedService: ArrangedService, private _message: NzMessageService,
+                   private confirmServ: NzModalService) {
     }
+    validateForm: FormGroup;
     simpleOrderList = [];
     orderDetails = [];
     lab = [];
@@ -29,6 +32,12 @@ export class ArrangedComponent implements OnInit {
         'lab/getLabById', // 4获取实验室
         'semester/getNowSemester', // 5获取学期
         'user/getUserByUserName', // 6获取管理员信息
+    ];
+    options = [
+        { value: '2016', label: '2016' },
+        { value: '2017', label: '2017' },
+        { value: '2018', label: '2018' },
+        { value: '2019', label: '2019' },
     ];
     // 获取学期
     nowSemester = {
@@ -102,6 +111,39 @@ export class ArrangedComponent implements OnInit {
         const array = ['日', '一', '二', '三', '四', '五', '六', '日'];
         return array[num];
     }
+    // 获取历史预约
+    currentModal;
+    showModalForTemplate(titleTpl, contentTpl, footerTpl) {
+        const form = this.validateForm;
+        let _storage = this._storage;
+        const Route = this.router;
+        this.currentModal = this.confirmServ.open({
+            title       : titleTpl,
+            content     : contentTpl,
+            footer      : footerTpl,
+            onOk() {
+                const str = form.controls['fy'].value.value + '-' +
+                    form.controls['sy'].value.value + '-' + form.controls['type'].value;
+                _storage.set('history', str);
+                Route.navigate(['/arranged/history']);
+            },
+            onCancel() {
+            },
+        });
+    }
+    handleCancel(e) {
+        this.currentModal.destroy('onCancel');
+        this.currentModal = null;
+    }
+    isConfirmLoading = false;
+    handleOk(e) {
+        this.isConfirmLoading = true;
+        setTimeout(() => {
+            this.currentModal.destroy('onOk');
+            this.isConfirmLoading = false;
+            this.currentModal = null;
+        }, 1000);
+    }
     // 修改志愿1
     private update(data: any) {
         const str = JSON.stringify(data);
@@ -110,6 +152,11 @@ export class ArrangedComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.validateForm = this.fb.group({
+            fy: [null, this.validateForm],
+            sy: [null, this.validateForm],
+            type: [null, this.validateForm]
+        });
         this._getData();
     }
 }

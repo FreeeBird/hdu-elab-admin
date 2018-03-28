@@ -6,6 +6,55 @@
     <div nz-col [nzSpan]="22">
         <p>当前学期：{{nowSemester.nowSemester}}</p>
     </div>
+    <div nz-col [nzSpan]="1" style="margin-left: -2em;margin-bottom: -2em">
+        <button nz-button [nzType]="'primary'" [nzSize]="'large'" (click)="showModalForTemplate(title, content, footer)">
+            <span>查询历史预约</span>
+        </button>
+        <ng-template #title>
+            <span>查询历史预约</span>
+        </ng-template>
+        <ng-template #content>
+            <form nz-form [nzType]="'horizontal'" [formGroup]="validateForm">
+                <div nz-form-item nz-row>
+                    <div nz-form-label nz-col [nzSpan]="6">
+                        <label nz-form-item-required>选择学期：</label>
+                    </div>
+                    <div nz-form-control nz-col [nzSpan]="4">
+                        <nz-select formControlName="fy" [nzSize]="'large'">
+                            <nz-option *ngFor="let option of options" [nzLabel]="option.label" [nzValue]="option"></nz-option>
+                        </nz-select>
+                    </div>
+                    <div nz-form-control nz-col [nzSpan]="1">
+                        <span>&nbsp;&nbsp;-</span>
+                    </div>
+                    <div nz-form-control nz-col [nzSpan]="4">
+                        <nz-select formControlName="sy" [nzSize]="'large'">
+                            <nz-option *ngFor="let option of options" [nzLabel]="option.label" [nzValue]="option"></nz-option>
+                        </nz-select>
+                    </div>
+                    <div nz-form-control nz-col [nzSpan]="1">
+                        <span>&nbsp;&nbsp;-</span>
+                    </div>
+                    <div nz-form-control nz-col [nzSpan]="2">
+                        <nz-select formControlName="type" [nzSize]="'large'">
+                            <nz-option [nzLabel]="1" [nzValue]="1"></nz-option>
+                            <nz-option [nzLabel]="2" [nzValue]="2"></nz-option>
+                        </nz-select>
+                    </div>
+                </div>
+            </form>
+        </ng-template>
+        <ng-template #footer>
+            <div>
+                <button nz-button [nzSize]="'large'" (click)="handleCancel()">
+                    返 回
+                </button>
+                <button nz-button [nzType]="'primary'" [nzSize]="'large'" (click)="handleOk($event)" [nzLoading]="isConfirmLoading">
+                    提 交
+                </button>
+            </div>
+        </ng-template>
+    </div>
 </div>
 <br><br>
 <nz-table #nzTable [nzDataSource]="simpleOrderList" [nzPageSize]="5"  [nzTotal]="simpleOrderList.length" nzShowTotal="true">

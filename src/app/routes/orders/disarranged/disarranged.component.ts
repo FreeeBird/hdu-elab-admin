@@ -22,6 +22,7 @@ export class DisarrangedComponent implements OnInit {
         'lab/getLabById', // 3 获取实验室
         'semester/getNowSemester', // 4
         'user/getUserByUserName', // 5获取管理员信息
+        'order/semester/autoArrangeOrderByLabId', // 6自动排课
     ];
     orderList = [];
     orderDetails = [];
@@ -93,8 +94,21 @@ export class DisarrangedComponent implements OnInit {
     }
 
     private getDayByNum(num: number) {
-        const array = ['天', '一', '二', '三', '四', '五', '六', '天'];
+        const array = ['日', '一', '二', '三', '四', '五', '六', '日'];
         return array[num];
+    }
+    // 自动排课
+    private autoArrange() {
+        let now = this.nowSemester.nowSemester.slice(0, 9) + '-' + this.nowSemester.nowSemester.slice(12, 13);
+        let data = {
+            labId: parseInt(this._storage.get('labId'), 10),
+            semester: now
+        };
+        this.DisarrangedService.executeHTTP(this.apiUrl[6], data)
+            .then((res: any) => {
+                let result = JSON.parse(res['_body'])['result'];
+                console.log(result);
+            });
     }
     // 修改志愿1
     private update(data: any) {
