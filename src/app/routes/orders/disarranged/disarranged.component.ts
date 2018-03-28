@@ -3,6 +3,8 @@ import {Component, OnInit} from '@angular/core';
 import {DisarrangedService} from './disarranged.service';
 import {SessionStorageService} from '@core/storage/storage.service';
 import {Router} from '@angular/router';
+import {NzMessageBaseService} from 'ng-zorro-antd/src/message/nz-message.service';
+import {NzMessageService, NzModalService} from 'ng-zorro-antd';
 
 @Component({
     selector: 'app-disarranged',
@@ -13,7 +15,7 @@ import {Router} from '@angular/router';
 
 export class DisarrangedComponent implements OnInit {
     constructor(private _storage: SessionStorageService, private router: Router,
-    private DisarrangedService: DisarrangedService) {
+    private DisarrangedService: DisarrangedService, private _mess: NzMessageService, private confirmServ: NzModalService) {
     }
     apiUrl = [
         'order/getUnfinishedSimpleOrderListByLabId', /*0获取实验室的未安排预约*/
@@ -107,8 +109,23 @@ export class DisarrangedComponent implements OnInit {
         this.DisarrangedService.executeHTTP(this.apiUrl[6], data)
             .then((res: any) => {
                 let result = JSON.parse(res['_body'])['result'];
-                console.log(result);
+                if (result === 1) {
+                    this.alertMessage('自动排课成功！');
+                } else {
+                    this.alertMessage('自动排课失败！');
+                }
             });
+    }
+    private alertMessage(content: any) {
+        const modal = this.confirmServ.success({
+            title: '通知',
+            content: content
+        });
+        const Route = this.router;
+        setTimeout(function () {
+            modal.destroy();
+            Route.navigate(['/disarranged']);
+        }, 1000);
     }
     // 修改志愿1
     private update(data: any) {
