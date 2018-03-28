@@ -12,6 +12,7 @@ import {AlterComponent} from './orders/alter/alter.component';
 import {ProfileComponent} from './profile/profile.component';
 import {passwordEditComponent} from './passwordEdit/passwordEdit.component';
 import {OrderDetailComponent} from './orders/orderDetail/orderDetail.component';
+import {HistoricalOrdersComponent} from './orders/historicalOrders/historicalOrders.component';
 
 export const routes: Routes = [
     {path: 'login', component: LoginComponent, canLoad: [CanAuthProvide]},
@@ -35,7 +36,14 @@ export const routes: Routes = [
                 data: {
                     breadcrumb: '已安排预约'
                 }
-            }, {
+            },
+            {
+                path: 'arranged/history', component: HistoricalOrdersComponent, canActivate: [CanAuthProvide],
+                data: {
+                    breadcrumb: '历史预约'
+                }
+            },
+            {
                 path: 'disarranged', component: DisarrangedComponent, canActivate: [CanAuthProvide],
                 data: {
                     breadcrumb: '未安排预约'

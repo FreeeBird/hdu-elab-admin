@@ -1,0 +1,145 @@
+<div nz-row>
+    <h1>历史预约</h1>
+</div>
+<div nz-row>
+    <div nz-col [nzSpan]="22">
+        <p>查询学期：<span>{{searchSemester}}</span></p>
+    </div>
+    <div nz-col [nzSpan]="2">
+        <button nz-button [nzSize]="'large'" onclick="window.history.back()">
+            <span>返回</span>
+        </button>
+    </div>
+</div>
+<div nz-row class="mycard" [nzType]="'flex'" [nzJustify]="'center'" [nzAlign]="'middle'">
+    <div nz-col [nzSpan]="8">
+        <p>预约课程</p>
+        <p>{{orders.length}}个课程</p>
+    </div>
+    <div nz-col class="se"  [nzSpan]="8">
+        <p>已预约学时</p>
+        <p>{{this.getAllHour(orders)}}个学时</p>
+    </div>
+    <div nz-col  [nzSpan]="8">
+        <p>未通过预约数</p>
+        <p>{{UnfinishOrder.length}}个预约</p>
+    </div>
+</div>
+<div nz-row>
+    <div nz-col [nzSpan]="14">
+        <h2>历史预约列表</h2>
+    </div>
+    <div nz-col [nzSpan]="6" class="mbg">
+        <nz-radio-group  [(ngModel)]="choice" style="margin-right: 1em">
+            <label nz-radio-button [nzValue]="100" ><span>全部</span></label>
+            <label nz-radio-button [nzValue]="50"><span>进行中</span></label>
+            <label nz-radio-button [nzValue]="0"><span>未开始</span></label>
+        </nz-radio-group>
+    </div>
+    <div nz-col [nzSpan]="3" class="sousuo">
+        <nz-input [nzType]="'search'" [nzPlaceHolder]="'请输入'"
+                  [(ngModel)]="_value" style="width: 200px;margin-left: -2em" (nzOnSearch)="null">
+        </nz-input>
+    </div>
+</div>
+<br><br>
+<div nz-row>
+    <div nz-col>
+        <nz-table #nzTable [nzDataSource]="orders" [nzPageSize]="5" nzShowSizeChange [nzTotal]="orders.length" [nzShowTotal]="true" [nzLoading]="_loading">
+            <thead nz-thead>
+            <tr>
+                <th nz-th nzExpand></th>
+                <th nz-th><span>编号</span></th>
+                <th nz-th><span>教师名称</span></th>
+                <th nz-th [nzWidth]="'17%'"><span>课程名称</span></th>
+                <th nz-th [nzWidth]="'30%'"><span>课程号</span></th>
+                <th nz-th><span>人数</span></th>
+                <th nz-th><span>已预约学时</span></th>
+                <th nz-th><span>预约提交时间</span></th>
+                <th nz-th><span>进度</span></th>
+                <th nz-th><span>操作</span></th>
+            </tr>
+            </thead>
+            <tbody nz-tbody>
+            <ng-template ngFor let-data [ngForOf]="nzTable.data">
+                <tr nz-tbody-tr >
+                    <td nz-td nzExpand (click)="this.boolOpen(data.expand, data.orderDetails)">
+                        <nz-row-expand-icon [(nzExpand)]="data.expand"></nz-row-expand-icon>
+                    </td>
+                    <td nz-td>{{data.id}}</td>
+                    <td nz-td>
+                        <nz-popover [nzTitle]="'联系方式'">
+                            <span nz-popover>{{data.userNickname}}</span>
+                            <ng-template #nzTemplate>
+                                <div><p>电话：{{data.phone}}</p>
+                                    <p>邮箱：{{data.email}}</p></div>
+                            </ng-template>
+                        </nz-popover>
+                    </td>
+                    <td nz-td>{{data.className}}</td>
+                    <td nz-td>{{data.classId}}</td>
+                    <td nz-td>{{data.classPeoCount}}</td>
+                    <td nz-td>{{this.getHour(data.orderDetails)}}</td>
+                    <td nz-td>{{data.lastModify}}</td>
+                    <td nz-td>{{data.passFlagString}}</td>
+                    <td nz-td>
+                    </td>
+                </tr>
+                <tr nz-tbody-tr *ngIf="data.expand">
+                    <td nz-td colspan="9" style="padding: 0">
+                        <!--展开头-->
+                        <div nz-row *ngFor="let order of data.orderDetails">
+                            <nz-alert [nzType]="'info'"  nzShowIcon="true"  style="text-align: center">
+        <span alert-body >
+            <span style="float: left">志愿{{order.type}}</span>&nbsp;&nbsp;
+            <span>预约时间：星期{{getDayByNum(order.weekDays)}}</span>&nbsp;&nbsp;
+            <span>预约节次：{{order.classNum}}</span>&nbsp;&nbsp;
+            <span>预约周次：{{order.orderWeek}}</span>&nbsp;&nbsp;
+            <span>班级人数：{{data.classPeoCount}}</span>&nbsp;&nbsp;
+        </span>
+                            </nz-alert>
+                            <nz-table #nzTable [nzDataSource]="order.lab"  [nzIsPagination]="false">
+            <thead nz-thead>
+            <tr>
+                <th nz-th><span>编号</span></th>
+                <th nz-th><span>实验室名称</span></th>
+                <th nz-th><span>楼栋</span></th>
+                <th nz-th><span>门牌号</span></th>
+                <th nz-th><span>可容纳人员</span></th>
+                <th nz-th><span>分类</span></th>
+                <th nz-th><span>管理员</span></th>
+                <th nz-th><span>分配人数</span></th>
+            </tr>
+            </thead>
+            <tbody nz-tbody *ngFor="let i of [0,1,2]" >
+            <tr nz-tbody-tr *ngIf="i<order.lab.length&&lab[order.lab[i]]!=null" >
+                <td nz-td>{{order.lab[i]}}</td>
+                <td nz-td>{{lab[order.lab[i]].labName}}</td>
+                <td nz-td>{{lab[order.lab[i]].labBuild}}</td>
+                <td nz-td>{{lab[order.lab[i]].labNumber}}</td>
+                <td nz-td>{{lab[order.lab[i]].labPeoCount}}</td>
+                <td nz-td>{{lab[order.lab[i]].labType}}</td>
+                <td nz-td>
+                    <nz-popover [nzTitle]="'联系方式'">
+                        <span nz-popover>{{lab[order.lab[i]].adminName}}</span>
+                        <ng-template #nzTemplate>
+                            <div><p>电话：{{lab[order.lab[i]].phone}}</p>
+                                <p>邮箱：{{lab[order.lab[i]].email}}</p></div>
+                        </ng-template>
+                    </nz-popover>
+                </td>
+                <td nz-td>{{order.labArrangedPeoCount[i]}}</td>
+            </tr>
+            </tbody>
+        </nz-table>
+        <span>需要的软件及备注：{{data.remark}}</span>
+        <br>
+    </div>
+    <!--展开尾-->
+    </td>
+    </tr>
+    </ng-template>
+    </tbody>
+    </nz-table>
+</div>
+</div>
