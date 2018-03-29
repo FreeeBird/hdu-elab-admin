@@ -8,7 +8,6 @@ import {CanAuthProvide} from '@core/services/auth.service';
 import {CalendarComponent} from './calendar/calendar.component';
 import {ArrangedComponent} from './orders/arranged/arranged.component';
 import {DisarrangedComponent} from './orders/disarranged/disarranged.component';
-import {AlterComponent} from './orders/alter/alter.component';
 import {ProfileComponent} from './profile/profile.component';
 import {passwordEditComponent} from './passwordEdit/passwordEdit.component';
 import {OrderDetailComponent} from './orders/orderDetail/orderDetail.component';

@@ -8,7 +8,7 @@
     </div>
     <ul nz-menu [nzMode]="'horizontal'">
       <li nz-submenu>
-        <span title><i class="anticon anticon-user"></i>{{this._storage.get('username')}}</span>
+        <span title><i class="anticon anticon-user"></i>{{this._storage.get('nickname')}}</span>
         <ul>
           <li style="text-align: center" nz-menu-item (click)="signOut()">注销</li>
           <li style="text-align: center" nz-menu-item (click)="profile()">个人资料</li>

@@ -1,8 +1,8 @@
 import {NgModule} from '@angular/core';
 import {SharedModule} from '../../shared.module';
 import {SettingsService} from '@core/services/settings.service';
-import {DividerComponent} from "./Divider.component";
-import {Router} from "@angular/router";
+import {DividerComponent} from './Divider.component';
+import {Router} from '@angular/router';
 
 @NgModule({
   declarations: [

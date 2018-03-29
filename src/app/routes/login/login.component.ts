@@ -4,6 +4,7 @@ import {LoginService} from './login.service';
 import {Router} from '@angular/router';
 import {NzMessageService} from 'ng-zorro-antd';
 import {SessionStorageService} from '@core/storage/storage.module';
+import {AjaxService} from '@core/services/ajax.service';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +15,7 @@ import {SessionStorageService} from '@core/storage/storage.module';
 
 export class LoginComponent implements OnInit {
     constructor(private fb: FormBuilder, private loginService: LoginService, private router: Router, private _message: NzMessageService,
-                private _storage: SessionStorageService) {
+                private _storage: SessionStorageService, private http: AjaxService) {
     }
   validateForm: FormGroup;
   loadStatus: boolean;
@@ -39,6 +40,11 @@ export class LoginComponent implements OnInit {
               setTimeout(() => {
                   if (mess ===  1) {
                       this._storage.set('username', userName);
+                      this.http.executeHttp('/user/getUserByUserName', {userName: this._storage.get('username')})
+                          .then((res: any) => {
+                              let user = JSON.parse(res['_body'])['User1'];
+                              this._storage.set('nickname', user.userNickname);
+                          });
                       this.loginService.executeHTTP(this.apis[1], {adminUserName: this._storage.get('username')})
                       .then(res => {
                           const data = JSON.parse(res['_body'])['lab1List'];

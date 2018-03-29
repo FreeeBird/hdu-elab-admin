@@ -4,7 +4,6 @@ import {SharedModule} from '../../shared.module';
 import {ComponentsModule} from '@components/components.module';
 import {ArrangedComponent} from './arranged/arranged.component';
 import {DisarrangedComponent} from './disarranged/disarranged.component';
-import {AlterComponent} from './alter/alter.component';
 import {OrderDetailComponent} from './orderDetail/orderDetail.component';
 import {HistoricalOrdersComponent} from './historicalOrders/historicalOrders.component';
 
@@ -14,7 +13,6 @@ import {HistoricalOrdersComponent} from './historicalOrders/historicalOrders.com
     ArrangedComponent,
     DisarrangedComponent,
     HistoricalOrdersComponent,
-    AlterComponent,
     OrderDetailComponent
   ],
   imports: [
