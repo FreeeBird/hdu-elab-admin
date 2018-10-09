@@ -1,4 +1,5 @@
 ///<reference path="../../../../../node_modules/@angular/forms/src/model.d.ts"/>
+///<reference path="../../../../../node_modules/@angular/core/src/metadata/directives.d.ts"/>
 import {Component, OnInit} from '@angular/core';
 import {OrderDetailService} from './orderDetail.service';
 import {SessionStorageService} from '@core/storage/storage.module';
@@ -19,10 +20,8 @@ export class OrderDetailComponent implements OnInit {
     constructor(private DetailService: OrderDetailService, private fb: FormBuilder, private router: Router,
                 private _storage: SessionStorageService, private confirmServ: NzModalService) {
     }
-    apiUrl = [
-        'http://aliyun.charlesxu.cn:8080/LabManager/order/getOrderById',
-    ];
     order;
+    orderDetail;
     week = [{ value: 1, label: '1' },
         { value: 2, label: '2' },
         { value: 3, label: '3' },
@@ -72,12 +71,8 @@ export class OrderDetailComponent implements OnInit {
     ];
     private _getData = () => {
         // 获取预约
-        const order = JSON.parse(this._storage.get('order'));
-        this.DetailService.excuteHttp(this.apiUrl[0], {id: order.id})
-            .then((result: any) => {
-                this.order = JSON.parse(result['_body'])['Order'];
-                console.log(this.order);
-            });
+        this.order = JSON.parse(this._storage.get('orderDetail'));
+        this.orderDetail = this.order.orderDetails[0];
     }
     _back() {
         window.history.back();
@@ -86,32 +81,32 @@ export class OrderDetailComponent implements OnInit {
     setWeek = (target, operation) => {
         this.validateForm.controls[target].reset();
         if (operation == 0) {
-            let c = this.validateForm.value;
+            const c = this.validateForm.value;
             c.week = this.week;
             this.validateForm.setValue(c);
         }
-        if(operation==1){
-            let c = this.validateForm.value;
+        if (operation == 1){
+            const c = this.validateForm.value;
             c.week = [];
-            for(let i=0;i< this.week.length;i++){
-                if(i%2==0){
+            for (let i = 0; i < this.week.length; i++){
+                if (i % 2 == 0){
                     c.week.push(this.week[i]);
                 }
             }
             this.validateForm.setValue(c);
         }
-        if(operation==2){
-            let c = this.validateForm.value;
+        if (operation == 2){
+            const c = this.validateForm.value;
             c.week = [];
-            for(let i=0;i< this.week.length;i++){
-                if(i%2){
+            for (let i = 0; i < this.week.length; i++){
+                if (i % 2){
                     c.week.push(this.week[i]);
                 }
             }
             this.validateForm.setValue(c);
         }
-    };
-    //控制全选单双重置
+    }
+    // 控制全选单双重置
 
     getFormControl(name) {
         return this.validateForm.controls[name];
@@ -123,25 +118,30 @@ export class OrderDetailComponent implements OnInit {
             content: contentTpl
         });
     }
+
+    _submit() {
+
+    }
     success = () => {
         const modal = this.confirmServ.success({
             title: '修改成功',
-            content: '1秒后回到课程管理'
+            content: '1秒后回到预约管理'
         });
-        this._storage.remove('course');
         const Route = this.router;
         setTimeout(function () {
             modal.destroy();
-            Route.navigate(['/courses']);
+            Route.navigate(['/arranged']);
         }, 1000);
     }
     ngOnInit(): void {
         this._getData();
-        if (this.order !== null) {
-            this._storage.remove('order');
-            }
         this.validateForm = this.fb.group({
-            orderId: [null, [Validators.required]],
+                orderId: [this.order.classId, [Validators.required]],
+                className: [this.order.className, [Validators.required]],
+                week: [this.order.orderDetails[0].orderWeek, [Validators.required]],
+                weekday: [this.orderDetail.weekdays, [Validators.required]],
+                classNum: [this.orderDetail.classNum, [Validators.required]],
+                classPeoCount: [this.order.classPeoCount, [Validators.required]],
         });
     }
 }
