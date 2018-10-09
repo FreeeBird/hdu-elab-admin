@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
                       .then(res => {
                           const data = JSON.parse(res['_body'])['lab1List'];
                           this._storage.set('labId', data[0].id);
-                      })
+                      });
                       this.router.navigate(['']);
                   } else {
                       this.loadStatus = false;
